@@ -37,7 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
+    'site_pages',
+    'user_accounts',
 ]
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -47,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'ScrapQuotation.urls'
@@ -83,6 +89,12 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
+AUTH_USER_MODEL = 'user_accounts.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'user_accounts.backends.EmailAuth',
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -103,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-uk'
 
 TIME_ZONE = 'UTC'
 
@@ -118,7 +130,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIR = (
-    os.path.join(BASE_DIR, 'static'),
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
 )

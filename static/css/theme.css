@@ -1,0 +1,52 @@
+body { 
+	font-family: 'Lato', Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Lato', Arial, sans-serif;
+}
+
+/* Back to top button */
+#toTop { 
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	cursor: pointer;
+	display: none;
+	border-radius: 25;
+	height: 50px;
+	width: 50px;
+	line-height: 50px;
+	text-align: center;
+	z-index: 999;
+}
+#toTop > .glyphicon {
+	font-size: 25px;
+}
+
+/* Postcode Lookup Errors */
+#idpc_error_message {
+	color: #f00;
+}
+
+/* Button Overrides */
+.btn {
+	transition: all 0.3s ease-in-out;
+}
+.btn-info {
+	background-color: #086bb5;
+	border-color: #086bb5;
+}
+.btn-info:hover {
+	background-color: #2881B6;
+}
+
+/* Progress Bar Overrides */
+.progress {
+	margin-top: 20px;
+}
+
+/* Forms */
+.req {
+	color: #f00;
+}

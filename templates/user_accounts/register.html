@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header_code %}
+	
+{% endblock %}
+
+{% block main_content %}
+	<form role="form" method="post">
+		{% csrf_token %}
+		<!-- Full Name -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Your Name</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+						<div class="form-group">
+							<label for="{{ form.title.id_for_label }}">Title</label>
+							{{ form.title }}
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-5 col-lg-5">
+						<div class="form-group">
+							<label for="{{ form.first_name.id_for_label }}">First Name<span class="req">*</span></label>
+							{{ form.first_name }}
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-5 col-lg-5">
+						<div class="form-group">
+							<label for="{{ form.last_name.id_for_label }}">Last Name<span class="req">*</span></label>
+							{{ form.last_name }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Address Details -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Your Address</h3>
+			</div>
+			<div class="panel-body">
+				<!-- Postcode Lookup Section -->
+				<div class="row">
+					<div class="col-xs-12">
+						<h4>Address Lookup</h4>
+						<p>Simple enter your Postcode in the field below and press the Lookup button to find your address. You can then select your address from the list provided to populate the address fields.
+					</div>
+				</div>
+				<div class="form-horizontal">
+					<div class="form-group">
+						<label for="postcode_lookup" class="col-sm-2 control-label">Postcode Lookup</label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<input type="text" name="" id="postcode_lookup" class="form-control">
+								<span class="input-group-btn">
+									<a href="" class="btn btn-info" id="doLookup">Lookup</a>
+								</span>
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div id="lookup_field"></div>
+						</div>
+					</div>
+					
+				</div>
+				<hr />
+				<div class="form-horizontal">
+					<div class="form-group">
+						<label for="{{ form.address_line_1.id_for_label }}" class="col-sm-2 control-label">Address Line 1<span class="req">*</span></label>
+						<div class="col-sm-10">
+							{{ form.address_line_1 }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form.address_line_2.id_for_label }}" class="col-sm-2 control-label">Address Line 2</label>
+						<div class="col-sm-10">
+							{{ form.address_line_2 }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form.address_town.id_for_label }}" class="col-sm-2 control-label">Town</label>
+						<div class="col-sm-10">
+							{{ form.address_town }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form.address_city.id_for_label }}" class="col-sm-2 control-label">City</label>
+						<div class="col-sm-10">
+							{{ form.address_city }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form.address_county.id_for_label }}" class="col-sm-2 control-label">County</label>
+						<div class="col-sm-10">
+							{{ form.address_county }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form.post_code.id_for_label }}" class="col-sm-2 control-label">Postcode<span class="req">*</span></label>
+						<div class="col-sm-10">
+							{{ form.post_code }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contact Details -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Contact Details</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-horizontal">
+					<div class="form-group">
+						<label for="{{ form.email.id_for_label }}" class="col-sm-2 control-label">E-Mail Address<span class="req">*</span></label>
+						<div class="col-sm-10">
+							{{ form.email }}
+							<span class="help-block" id="email_error"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form.telephone.id_for_label }}" class="col-sm-2 control-label">Telephone Number</label>
+						<div class="col-sm-10">
+							{{ form.telephone }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Password -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Password</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-horizontal">
+					<div class="form-group">
+						<label for="{{ form.password1.id_for_label }}" class="col-sm-2 control-label">Password<span class="req">*</span></label>
+						<div class="col-sm-10">
+							{{ form.password1 }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form.password2.id_for_label }}" class="col-sm-2 control-label">Confirm Password<span class="req">*</span></label>
+						<div class="col-sm-10">
+							{{ form.password2 }}
+							<span class="help-block">
+								{{ form.password2.errors }}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<input type="submit" class="btn btn-info btn-large" text="Register" id="register_submit">
+	</form>
+{% endblock %}
+
+{% block footer_js %}
+	<script src="{% static 'lib/js/postcodes.min.js' %}"></script>
+	<script src="{% static 'lib/js/pwstrength-bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/register.js' %}"></script>
+	<script>
+		// function to get a cookie
+		// provided by the django documentation.
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = jQuery.trim(cookies[i]);
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+
+		// get the csrftoken.
+		var csrftoken = getCookie('csrftoken');
+
+		// on blur, lookup the supplied e-mail address via an ajax call.
+		$('#id_email').blur(function() {
+			function csrfSafeMethod(method) {
+				// these HTTP methods do not require CSRF protection
+				return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+			}
+
+			// Inject our CSRF token into our AJAX request.
+			$.ajaxSetup({
+				beforeSend: function(xhr, settings) {
+					if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+						xhr.setRequestHeader("X-CSRFToken", csrftoken)
+					}
+				}
+			});
+
+			$.ajax({
+				type: "GET",
+				url: "{% url 'lookup_email' %}",
+				data: {
+					'username': $('#id_email').val()
+				},
+				dataType: 'json',
+				success: function(data) {
+					if (data.is_taken) {
+						$('#email_error').html("A user with that username already exists.");
+						$('#email_error').parent().parent().addClass('has-error').removeClass('has-success');
+						$('#register_submit').prop('disabled', true);
+					} else {
+						$('#email_error').html("That username is available.");
+						$('#email_error').parent().parent().addClass('has-success').removeClass('has-error');
+						$('#register_submit').prop('disabled', false);
+					}
+				}
+			});
+		});
+
+		$('#id_password2').pwstrength({
+			ui: { showVerdictsInsideProgressBar: true }
+		});
+
+	</script>
+{% endblock %}
