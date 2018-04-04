@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^ajax/check_email/$', accounts.lookup_email, name='lookup_email') # check email address doesn't exist
 ]
 
+# if in Debug mode, include the debug toolbar.
 if settings.DEBUG:
     import debug_toolbar
 

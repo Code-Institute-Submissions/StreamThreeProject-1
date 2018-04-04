@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'tinymce',
     'site_pages',
     'user_accounts',
+    'scrap_quote',
 ]
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -135,3 +137,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'user_uploads')
+MEDIA_URL = '/user_uploads/'
+
+# tinymce settings
+TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", "lib", "js", "tinymce", "tinymce.min.js")
