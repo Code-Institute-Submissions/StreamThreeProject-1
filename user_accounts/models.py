@@ -50,13 +50,13 @@ class User(AbstractUser):
 	title = models.CharField(max_length=4, null=True, blank=True, choices=TITLE_CHOICES)  # title field, can be blank.
 	first_name = models.CharField(max_length=50, null=False)  # first name field, required.
 	last_name = models.CharField(max_length=50, null=False)  # last name field, required.
-	telephone = models.CharField(max_length=12, null=True, blank=True)  # telephone number, can be blank.
+	telephone = models.CharField(max_length=12, blank=True)  # telephone number, can be blank.
 	post_code = models.CharField(max_length=8, null=False)  # postcode field, required.
 	address_line_1 = models.CharField(max_length=100, null=False)  # first line of address, required.
-	address_line_2 = models.CharField(max_length=100, null=True, blank=True)  # second line of address (optional).
-	address_town = models.CharField(max_length=50, null=True, blank=True)  # town.
-	address_city = models.CharField(max_length=50, null=True, blank=True)  # city.
-	address_county = models.CharField(max_length=50, null=True, blank=True)  # county.
+	address_line_2 = models.CharField(max_length=100, blank=True)  # second line of address (optional).
+	address_town = models.CharField(max_length=50, blank=True)  # town.
+	address_city = models.CharField(max_length=50, blank=True)  # city.
+	address_county = models.CharField(max_length=50, blank=True)  # county.
 
 	# bind fields to AccountUserManager.
 	objects = AccountUserManager()
