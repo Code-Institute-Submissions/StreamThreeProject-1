@@ -11,6 +11,7 @@ from django.http import JsonResponse
 
 from .forms import UserRegistrationForm, UserLoginForm
 from .models import User
+from scrap_quote.models import Quote
 
 # create the user registration view
 def register(request):
@@ -118,11 +119,20 @@ def logout(request):
 
 
 # my account page.
-@login_required(login_url='/account/login/')
+@login_required()
 def my_account(request):
 
+	# get scrap quotes for the user.
+	if request.user.is_staff:
+		quotes = Quote.objects.all()
+	else:
+		quotes = Quote.objects.filter(user=request.user)
+
 	# page arguments.
-	args = {'pageTitle': 'My Account'}
+	args = {
+		'pageTitle': 'My Account',
+		'quotes': quotes
+	}
 
 	return render(request, 'user_accounts/my_account.html', args)
 

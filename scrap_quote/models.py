@@ -7,74 +7,169 @@ from django.utils import timezone
 from tinymce.models import HTMLField
 
 
+# Boat Type Model
+class TypeOfBoat(models.Model):
+
+	# fields
+	type_of_boat = models.CharField(max_length=20)
+	cost = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the type of boat
+	def __unicode__(self):
+		return self.type_of_boat
+
+	# class meta for the admin section.
+	class Meta:
+		verbose_name = 'Type of Boat'
+		verbose_name_plural = 'Type of Boat'
+
+
+# Keel Types Model
+class TypeOfKeel(models.Model):
+
+	# fields
+	type_of_keel = models.CharField(max_length=20)
+	cost = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the type of keel
+	def __unicode__(self):
+		return self.type_of_keel
+
+	# class meta for the admin section.
+	class Meta:
+		verbose_name = 'Type of Keel'
+		verbose_name_plural = 'Type of Keel'
+
+
+# Hull Material Model
+class HullMaterials(models.Model):
+
+	# fields
+	hull_material = models.CharField(max_length=30)
+	cost = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the hull material name
+	def __unicode__(self):
+		return self.hull_material
+
+	# class meta for the admin section
+	class Meta:
+		verbose_name = 'Hull Material'
+		verbose_name_plural = 'Hull Materials'
+
+
+# Hazardous Materials Model
+class HazardousMaterials(models.Model):
+
+	# fields
+	mat_type = models.CharField(max_length=50)
+	cost = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the material name
+	def __unicode__(self):
+		return self.mat_type
+
+	# class meta for the admin screen
+	class Meta:
+		verbose_name = 'Hazardous Material'
+		verbose_name_plural = 'Hazardous Materials'
+
+
+# Engine Types Model
+class EngineTypes(models.Model):
+
+	# fields
+	engine_type = models.CharField(max_length=20)
+	cost = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the type of engine
+	def __unicode__(self):
+		return self.engine_type
+
+	# class meta for the admin screen.
+	class Meta:
+		verbose_name = 'Engine Type'
+		verbose_name_plural = 'Engine Types'
+
+
+# Engine Still Run Model
+class EngineStillRun(models.Model):
+
+	# fields
+	engine_still_run = models.CharField(max_length=50)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the engine still run text
+	def __unicode__(self):
+		return self.engine_still_run
+
+	# class meta for the admin screen.
+	class Meta:
+		verbose_name = 'Engine Still Run Option'
+		verbose_name_plural = 'Engine Still Run Options'
+
+
+# Boat in the Water Options
+class BoatInWaterOptions(models.Model):
+
+	# fields
+	is_in_water = models.CharField(max_length=40)
+	cost = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the boat in water option
+	def __unicode__(self):
+		return self.is_in_water
+
+	# class meta for the admin screen.
+	class Meta:
+		verbose_name = 'Boat in Water Option'
+		verbose_name_plural = 'Boat in Water Options'
+
+
+# Trailer Options Model
+class TrailerOptions(models.Model):
+
+	# fields
+	trailer_option = models.CharField(max_length=40)
+	cost = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the trailer option
+	def __unicode__(self):
+		return self.trailer_option
+
+	# class meta for the admin screen.
+	class Meta:
+		verbose_name = 'Trailer Option'
+		verbose_name_plural = 'Trailer Options'
+
+
+# Scrap at Location model
+class ScrapAtLocation(models.Model):
+
+	# fields
+	scrap_at_location = models.CharField(max_length=40)
+	cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+	is_disabled = models.BooleanField(default=False)
+
+	# return the scrap at location text
+	def __unicode__(self):
+		return self.scrap_at_location
+
+	# class meta for the admin screen
+	class Meta:
+		verbose_name = 'Scrap At Location Option'
+		verbose_name_plural = 'Scrap At Location Options'
+
+
 # Creates the Scrap Quotes Model.
 class Quote(models.Model):
-
-	# choices for the type_of_boat field.
-	BOAT_TYPE_CHOICES = (
-		(None, 'Please select the type of boat'),
-		('Sailing Dinghy', 'Sailing Dinghy'),
-		('Motor Boat', 'Motor Boat'),
-		('Yacht', 'Yacht'),
-		('Narrowboat', 'Narrowboat')
-	)
-
-	# choices for the keel_type field.
-	KEEL_TYPES = (
-		('N/A', 'Not Applicable'),
-		('Fin Keel', 'Fin Keel'),
-		('Bilge Keel', 'Keel'),
-		('Other', 'Other')
-	)
-
-	# choices for the hull_material field.
-	HULL_MATERIALS = (
-		(None, 'Please select the material the hull is made from'),
-		('Aluminium', 'Aluminium'),
-		('Carbon Fibre', 'Carbon Fibre'),
-		('Ferro Cement', 'Ferro Cement'),
-		('GRP / Fibreglass', 'GRP / Fibreglass'),
-		('Plastic', 'Plastic'),
-		('Steel', 'Steel'),
-		('Wood', 'Wood')
-	)
-
-	# choices for hazardous_mats field.
-	HAZARDOUS_MATERIALS = (
-		('Asbestos', 'Asbestos'),
-		('Petrol', 'Petrol'),
-		('Diesel', 'Diesel'),
-		('Gas', 'Gas'),
-		('Waste Tanks', 'Waste Tanks'),
-		('Explosives', 'Explosives'),
-		('Engine Oil', 'Engine Oil'),
-		('Unknown', 'Unknown')
-	)
-
-	# choices for any yes/no/don't know field.
-	YES_NO_DONT_KNOW = (
-		('Yes', 'Yes'),
-		('No', 'No'),
-		('Don\'t Know', 'Don\'t Know')
-	)
-
-	# choices for the type_of_engine field.
-	ENGINE_TYPE = (
-		(None, 'Please select the type of engine.'),
-		('Outboard', 'Outboard'),
-		('Inboard', 'Inboard'),
-		('Twin Outboard', 'Twin Outboard'),
-		('Twin Inboard', 'Twin Inboard'),
-		('Other', 'Other')
-	)
-
-	# choices for boat_in_water field.
-	BOAT_IN_WATER_CHOICES = (
-		(None, 'Please select if your boat is in the water.'),
-		('No', 'No'),
-		('Yes, along side and ready to be lifted', 'Yes, along side and ready to be lifted'),
-		('Yes, needs moving and lifting out', 'Yes, needs moving and lifting out')
-	)
 
 	# identification fields
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, related_name="quotes")  # ID of the User who created this quote.
@@ -82,21 +177,21 @@ class Quote(models.Model):
 	ip_address = models.GenericIPAddressField(protocol='IPv4')  # IP Address of the person who sent in the quote.
 
 	# quote fields.
-	type_of_boat = models.CharField(max_length=20, null=False, blank=False, choices=BOAT_TYPE_CHOICES)  # the type of boat being scrapped.
-	keel_type = models.CharField(max_length=10, null=False, blank=False, choices=KEEL_TYPES)  # what type of keel does the boat have.
+	type_of_boat = models.ForeignKey(TypeOfBoat, on_delete=models.PROTECT, limit_choices_to={ 'is_disabled' : False })  # the type of boat being scrapped.
+	keel_type = models.ForeignKey(TypeOfKeel, on_delete=models.PROTECT, limit_choices_to={ 'is_disabled' : False })  # what type of keel does the boat have.
 	boat_length = models.PositiveSmallIntegerField(null=False, blank=False)  # overall length of the boat in feet.
 	boat_weight = models.PositiveSmallIntegerField(null=False, blank=False)  # weight of the boat in tonnes.
-	hull_material = models.CharField(max_length=20, null=False, blank=False)  # what material is the boats hull made from.
-	hazardous_mats = models.CharField(max_length=100, blank=True)  # multi-select fields, what hazardous material is left on the boat.
-	engine_removed = models.CharField(max_length=10, null=False, blank=False, choices=YES_NO_DONT_KNOW)  # has the engine been removed?
-	type_of_engine = models.CharField(max_length=15, blank=True, choices=ENGINE_TYPE)  # what type of engine has the boat got?
+	hull_material = models.ForeignKey(HullMaterials, on_delete=models.PROTECT, limit_choices_to={ 'is_disabled' : False })  # what material is the boats hull made from.
+	hazardous_mats = models.ManyToManyField(HazardousMaterials)  # multi-select fields, what hazardous material is left on the boat.
+	engine = models.ForeignKey(EngineTypes, on_delete=models.PROTECT, limit_choices_to={ 'is_disabled' : False })  # what type of engine has the boat got?
 	engine_make = models.CharField(max_length=50, blank=True)  # what make is the engine?
 	engine_cylinders = models.PositiveSmallIntegerField(blank=True)  # how many cylinders
 	engine_hours = models.PositiveSmallIntegerField(blank=True)  # how long has the engine been used.
-	engine_still_run = models.CharField(max_length=10, blank=True, choices=YES_NO_DONT_KNOW)  # does the engine still run?
-	boat_in_water = models.CharField(max_length=40, blank=True, choices=BOAT_IN_WATER_CHOICES)  # is the boat still in the water?
-	has_trailer = models.CharField(max_length=10, blank=True, choices=YES_NO_DONT_KNOW)  # does the boat have a trailer?
-	trailer_road_legal = models.CharField(max_length=10, blank=True, choices=YES_NO_DONT_KNOW)  # is the trailer road legal?
+	engine_still_run = models.ForeignKey(EngineStillRun, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={ 'is_disabled' : False })  # does the engine still run?
+	scrap_at_location = models.ForeignKey(ScrapAtLocation, on_delete=models.PROTECT, limit_choices_to={ 'is_disabled' : False })  # can we scrap the boat where it's located?
+	boat_in_water = models.ForeignKey(BoatInWaterOptions, on_delete=models.PROTECT, limit_choices_to={ 'is_disabled' : False })  # is the boat still in the water?
+	has_trailer = models.ForeignKey(TrailerOptions, on_delete=models.PROTECT, limit_choices_to={ 'is_disabled' : False })  # does the boat have a trailer?
+	boat_location = models.CharField(max_length=20)  # Postcode where the boat is stored.
 	travel_distance = models.PositiveSmallIntegerField(blank=True)  # estimated travel distance to the boat
 	additional_info = HTMLField()  # anything extra that might be needed about the boat.
 
@@ -104,8 +199,8 @@ class Quote(models.Model):
 	my_consent = models.BooleanField(default=False)  # a record of the user's consent to be contacted.
 
 	# admin fields
-	approved_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, limit_choices_to={'is_staff': True })  # who approved the quote?
-	date_approved = models.DateTimeField(blank=True)
+	approved_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, limit_choices_to={ 'is_staff' : True })  # who approved the quote?
+	date_approved = models.DateTimeField(blank=True, null=True)  # date/time the quote was approved.
 
 	# quote totals
 	all_inclusive_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -115,7 +210,6 @@ class Quote(models.Model):
 
 	# last updated
 	updated = models.DateTimeField(auto_now=True)  # date and time of the last update made to the quote.
-
 
 	def __unicode__(self):
 		return "{0}ft - {1}".format(self.boat_length, self.type_of_boat)
@@ -134,4 +228,4 @@ class QuoteImages(models.Model):
 
 	# return the path.
 	def __unicode__(self):
-		return file_path
+		return self.file_path

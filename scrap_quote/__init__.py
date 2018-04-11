@@ -1,0 +1,1 @@
+default_app_config = 'scrap_quote.apps.ScrapQuoteConfig'

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header_code %}
+	<link href="{% static 'lib/css/ideal-postcodes-autocomplete.css' %}" rel="stylesheet" type="text/css"> 
+	<script src="{% static 'lib/js/tinymce/tinymce.min.js' %}"></script>
+	<script>
+		{% include 'includes/tinymce.js' %}
+	</script>
+{% endblock %}
+
+{% block main_content %}
+	<form role="form" method="post" class="form-horizontal">
+		{% csrf_token %}
+		{% include "scrap_quote/forms/scrap_quote.html" %}
+		{% if is_edit %}
+			
+		{% endif %}
+		<input type="submit" value="Submit" class="btn btn-primary pull-right">
+	</form>
+{% endblock %}
+
+{% block footer_js %}
+	<script src="{% static 'lib/js/postcodes.min.js' %}"></script>
+	<script src="{% static 'lib/js/ideal-postcodes-autocomplete.min.js' %}"></script>
+	{% if is_edit %}
+			
+	{% endif %}
+
+	<script>
+		var controller = new IdealPostcodes.Autocomplete.Controller({
+			api_key: "iddqd",
+			inputField: "#address_lookup",
+			outputFields: {
+				postcode: "#{{ form.boat_location.id_for_label }}"
+			}
+		});
+
+		($(document).ready(function() {
+			// get objects to show/hide.
+			var _engine = $('#{{ form.engine.id_for_label }}');
+			var _make = $('#{{ form.engine_make.id_for_label }}').parent().parent();
+			var _cylinders = $('#{{ form.engine_cylinders.id_for_label }}').parent().parent();
+			var _hours = $('#{{ form.engine_hours.id_for_label }}').parent().parent();
+			var _run = $('#{{ form.engine_still_run.id_for_label }}').parent().parent();
+
+			// on change of the value of the engine field.
+			_engine.change(function() {
+				// if engine is removed.
+				if (_engine.val() == "1") {
+					// hide the other engine fields from the form.
+					_make.addClass('hidden');
+					_cylinders.addClass('hidden');
+					_hours.addClass('hidden');
+					_run.addClass('hidden');
+				} else {
+					// restore the fields.
+					_make.removeClass('hidden');
+					_cylinders.removeClass('hidden');
+					_hours.removeClass('hidden');
+					_run.removeClass('hidden');
+				}
+			});
+
+			$('input:checkbox').removeClass('form-control');
+			$('#id_my_consent').prop('required', true);
+		}));
+	</script>
+{% endblock %}

@@ -1,0 +1,330 @@
+		{% if user.is_staff %}
+			<!-- Admin Field to select the User -->
+			<fieldset>
+				<legend>Who is this quote for?</legend>
+				<p class="col-sm-10 col-sm-offset-2">
+					<b>System Admin Use Only:</b> Select a user this quote belongs to.
+				</p>
+				<div class="form-group">
+					<label for="{{ form.user.id_for_label }}" class="col-sm-2 control-label">
+						User <span class="req">*</span>
+					</label>
+					<div class="col-sm-10">
+						{{ form.user }}
+					</div>
+				</div>
+			</fieldset>
+		{% endif %}
+
+		<!-- Type of Boat and Keel Type -->
+		<fieldset>
+			<legend>Type of Boat</legend>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<div class="alert alert-info">
+						<div class="media">
+							<div class="media-left media-middle">
+								<i class="fas fa-ship fa-fw fa-3x"></i>
+							</div>
+							<div class="media-body">
+								<p>
+									This section will gather the type of boat you want to have scrapped
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Type of Boat -->
+			<div class="form-group">
+				<label for="{{ form.type_of_boat.id_for_label }}" class="col-sm-2 control-label">
+					Type of Boat <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.type_of_boat }}
+				</div>
+			</div>
+
+			<!-- Keel Type -->
+			<div class="form-group">
+				<label for="{{ form.keel_type.id_for_label }}" class="col-sm-2 control-label">
+					Keel Type <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.keel_type }}
+				</div>
+			</div>
+		</fieldset>
+		
+		<!-- Boat Details -->
+		<fieldset>
+			<legend>Boat Details</legend>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<div class="alert alert-info">
+						<div class="media">
+							<div class="media-left media-middle">
+								<i class="fas fa-sliders-h fa-fw fa-3x"></i>
+							</div>
+							<div class="media-body">
+								<p>
+									We use this section to gather some basic information about the boat you would like to have scrapped
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Boat Length -->
+			<div class="form-group">
+				<label for="{{ form.boat_length.id_for_label }}" class="col-sm-2 control-label">
+					Length <span class="req">*</span>
+				</label>
+				<div class="col-xs-8 col-sm-8">
+					{{ form.boat_length }}
+				</div>
+				<div class="col-xs-4 col-sm-2">
+					{{ form.length_type }}
+				</div>
+			</div>
+			<!-- Boat Weight -->
+			<div class="form-group">
+				<label for="{{ form.boat_weight.id_for_label }}" class="col-sm-2 control-label">
+					Weight <span class="req">*</span>
+				</label>
+				<div class="col-xs-8 col-sm-8">
+					{{ form.boat_weight }}
+				</div>
+				<div class="col-xs-4 col-sm-2">
+					{{ form.weight_type }}
+				</div>
+			</div>
+
+			<!-- Hull Material -->
+			<div class="form-group">
+				<label for="{{ form.hull_material.id_for_label }}" class="col-sm-2 control-label">
+					Hull Material <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.hull_material }}
+				</div>
+			</div>
+
+			<!-- Hazardous Materials -->
+			<div class="form-group">
+				<label for="{{ form.hazardous_mats.id_for_label }}" class="col-sm-2 control-label">
+					Hazardous Materials <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.hazardous_mats }}
+					<span class="help-block">Hold down "Control", or "Command" on a Mac, to select more than one.</span>
+				</div>
+			</div>
+		</fieldset>
+
+		<!-- Engine Details -->
+		<fieldset>
+			<legend>Engine Details</legend>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<div class="alert alert-warning">
+						<div class="media">
+							<div class="media-left media-middle">
+								<i class="fas fa-exclamation-triangle fa-3x fa-fw"></i>
+							</div>
+							<div class="media-body">
+								<p>
+									This section is used to gather some details about the engine that's in the boat.
+								</p>
+								<p>
+									<b>Please Note:</b><br />
+									We are governed by Environment Agency legislation during the removal and disposal of old engines and their oil. However, if your engine is in working order we may make you a cash offer which will reduce the price to scrap. If you have a working engine in your boat we strongly advise you to send us an up to date picture of it along with your enquiry.
+								</p>
+							</div>
+						</div>					
+					</div>
+				</div>
+			</div>
+			<!-- Engine -->
+			<div class="form-group">
+				<label for="{{ form.engine.id_for_label }}" class="col-sm-2 control-label">
+					Engine <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.engine }}
+				</div>
+			</div>
+
+			<!-- Engine Make -->
+			<div class="form-group">
+				<label for="{{ form.engine_make.id_for_label }}" class="col-sm-2 control-label">
+					Make
+				</label>
+				<div class="col-sm-10">
+					{{ form.engine_make }}
+				</div>
+			</div>
+			
+			<!-- Engine Cylinders -->
+			<div class="form-group">
+				<label for="{{ form.engine_cylinders.id_for_label }}" class="col-sm-2 control-label">
+					Cylinders
+				</label>
+				<div class="col-sm-10">
+					{{ form.engine_cylinders }}
+				</div>
+			</div>
+
+			<!-- Engine Hours -->
+			<div class="form-group">
+				<label for="{{ form.engine_hours.id_for_label }}" class="col-sm-2 control-label">
+					Hours
+				</label>
+				<div class="col-sm-10">
+					{{ form.engine_hours }}
+				</div>
+			</div>
+
+			<!-- Engine Still Run -->
+			<div class="form-group">
+				<label for="{{ form.engine_still_run.id_for_label }}" class="col-sm-2 control-label">
+					Does it still run?
+				</label>
+				<div class="col-sm-10">
+					{{ form.engine_still_run }}
+				</div>
+			</div>
+		</fieldset>
+
+		<!-- Boat's Location -->
+		<fieldset>
+			<legend>Location</legend>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<div class="alert alert-info">
+						<div class="media">
+							<div class="media-left media-middle">
+								<i class="fas fa-map-signs fa-fw fa-3x"></i>
+							</div>
+							<div class="media-body">
+								<p>
+									This section is used to gather information about the current location of the boat and gives us a better idea about what will need to be organised to collect and dispose of your boat.
+								</p>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Boats Location -->
+			<div class="form-group">
+				<label for="{{ form.boat_location.id_for_label }}" class="col-sm-2 control-label">
+					Boat's Postcode <span class="req">*</span>
+				</label>
+				<div class="col-sm-3">
+					{{ form.boat_location }}
+				</div>
+				<div class="col-sm-7">
+					<input id="address_lookup" class="form-control" type="text" placeholder="Search for an address..." />
+				</div>
+			</div>
+
+			<!-- Scrap at Location -->
+			<div class="form-group">
+				<label for="{{ form.scrap_at_location.id_for_label }}" class="col-sm-2 control-label">
+					Scrap at Location? <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.scrap_at_location }}
+				</div>
+			</div>
+
+			<!-- Still In The Water -->
+			<div class="form-group">
+				<label for="{{ form.boat_in_water.id_for_label }}" class="col-sm-2 control-label">
+					Still in the water? <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.boat_in_water }}
+				</div>
+			</div>
+
+			<!-- Has a Trailer -->
+			<div class="form-group">
+				<label for="{{ form.has_trailer.id_for_label }}" class="col-sm-2 control-label">
+					Access to a Trailer? <span class="req">*</span>
+				</label>
+				<div class="col-sm-10">
+					{{ form.has_trailer }}
+				</div>
+			</div>
+		</fieldset>
+
+		<!-- Aditional Information -->
+		<fieldset>
+			<legend>Additional Information</legend>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<div class="alert alert-info">
+						<div class="media">
+							<div class="media-left media-middle">
+								<i class="fas fa-keyboard fa-fw fa-3x"></i>
+							</div>
+							<div class="media-body">
+								<p>
+									Use this part of the form if there is anything else you think we should know about your boat? For example, if the access to the boat is restricted, you can use this section to describe the area. The more information you can provide us with, the easier it is for us to process your quote.
+								</p>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="{{ form.additional_info.id_for_label }}" class="col-sm-2 control-label">
+					Additional Information
+				</label>
+				<div class="col-sm-10">
+					{{ form.additional_info }}
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<legend>Privacy Information and Consent</legend>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<div class="alert alert-info">
+						<div class="media">
+							<div class="media-left media-middle">
+								<i class="fas fa-info-circle fa-fw fa-3x"></i>
+							</div>
+							<div class="media-body">
+								<p>
+									This section is for your information and will inform you about your Privacy Rights, about what we do with the information that you provide us with and for you to give us your consent to contact you with a quote to have your boat scrapped.
+								</p>
+								<p>
+									Please check the box below to confirm that you give your consent to Boatbreakers to process the information you have entered on the Scrap Quote Calculator to produce and e-mail you a quote to the e-mail address you have provided.
+								</p>
+								<p>
+									Boatbreakers only use the data and information you provide for the sole purpose of organising the disposal, purchase or sale of your boat.
+								</p>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<label for="{{ form.my_consent.id_for_label }}">
+							{{ form.my_consent }} I understand my privacy rights and give my consent for you to use this information to produce a "Scrap Quote" and to e-mail me this quote to the e-mail address I have provided.
+						</label>
+					</div>
+				</div>
+			</div>
+		</fieldset>

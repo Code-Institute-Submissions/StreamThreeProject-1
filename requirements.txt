@@ -2,3 +2,5 @@ Django=1.11.11
 mysqlclient=1.3.12
 django-tinymce=2.7.0
 Pillow=5.1.0
+googlemaps=2.5.1
+ajaxuploader=0.3.8

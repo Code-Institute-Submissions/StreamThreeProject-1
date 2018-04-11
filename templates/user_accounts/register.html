@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block main_content %}
-	<form role="form" method="post">
+	<form action="{% url 'register' %}" role="form" method="post">
 		{% csrf_token %}
 		<!-- Full Name -->
 		<div class="panel panel-default">

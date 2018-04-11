@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'ajaxuploader',
     'tinymce',
     'site_pages',
     'user_accounts',
@@ -143,3 +144,6 @@ MEDIA_URL = '/user_uploads/'
 
 # tinymce settings
 TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", "lib", "js", "tinymce", "tinymce.min.js")
+
+# Google Maps Distance Matrix AIP Key
+GOOGLE_MAPS_API_KEY = 'AIzaSyAfSB-B6Vri_wuGr7F1Ga_B95FkitXvGtM'

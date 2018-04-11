@@ -18,20 +18,12 @@ from django.contrib import admin
 from django.conf import settings
 
 from site_pages import views as pages
-from user_accounts import views as accounts
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),  # django admin page
 	url(r'^$', pages.get_home_page, name='home'),  # site home page
-
-    # user accounts
-	url(r'^account/register/$', accounts.register, name='register'), # user registration
-    url(r'^account/login/$', accounts.login, name='login'), # user log in
-    url(r'^account/logout/$', accounts.logout, name='logout'), # user log out
-    url(r'^account/$', accounts.my_account, name='my_account'), # my account home page
-
-    # ajax calls
-    url(r'^ajax/check_email/$', accounts.lookup_email, name='lookup_email') # check email address doesn't exist
+    url(r'^accounts/', include('user_accounts.urls')),  # user account urls.
+    url(r'^quote/', include('scrap_quote.urls')),  # quotation urls
 ]
 
 # if in Debug mode, include the debug toolbar.
