@@ -18,7 +18,7 @@ The company I currently work for specialises in buying, selling and disposing of
 			* Allow users to submit images related to their quote on-line
 			* Allow users to chat to staff about the quote on-line
 			* Allow the user to accept or decline a quote that has been approved.
-			* Allow the user to pay on-line, either by paying the full amount up-front, or setting up a 10 month payment plan.
+			* Allow the user to pay on-line for the quote.
 			* Allow the user to track the status of the quote on-line.
 	* Staff Members:
 		* Allow staff members to view quotes
@@ -40,10 +40,12 @@ The company I currently work for specialises in buying, selling and disposing of
 		* [IntroJS](https://introjs.com) - Used to add help guides to various pages and forms.
 		* [FileUploader](https://github.com/skoczen/django-ajax-uploader) - Used to add AJAX image uploading.
 		* [TinyMCE](https://www.tinymce.com/download/) - Used to add Rich Text editor capabilities to text fields.
+		* [jquery.confirm](https://myclabs.github.io/jquery.confirm/) - Adds confirmation popups to buttons before trigging the link
 * Python
 	* [Django 1.11.11](https://www.djangoproject.com)
 	* [Google Maps 2.5.1](https://github.com/googlemaps/google-maps-services-python) - Used to preform distance calculations between two postcodes as part of the scrap quotation.
 	* [Django TinyMCE 2.7.0](https://github.com/aljosa/django-tinymce) - Used to add TinyMCE to Django.
+	* [django-ajax-uploader](https://github.com/skoczen/django-ajax-uploader) - Used to add AJAX image uploading.
 
 ## Testing
 
