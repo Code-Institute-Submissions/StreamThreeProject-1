@@ -16,14 +16,20 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
+from django.views.static import serve
 
 from site_pages import views as pages
+from .settings import MEDIA_ROOT, STATIC_ROOT
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),  # django admin page
 	url(r'^$', pages.get_home_page, name='home'),  # site home page
     url(r'^accounts/', include('user_accounts.urls')),  # user account urls.
     url(r'^quote/', include('scrap_quote.urls')),  # quotation urls
+
+    # url to serve media
+    url(r'^user_uploads/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
+    url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
 ]
 
 # if in Debug mode, include the debug toolbar.

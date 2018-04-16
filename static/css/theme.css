@@ -41,6 +41,11 @@ h1, h2, h3, h4, h5, h6 {
 	overflow: hidden;
 }
 
+/* Grid */
+.row-inner {
+	margin-right: 0;
+	margin-left: 0;
+}
 
 /* Back to top button */
 #toTop { 
@@ -67,7 +72,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Page Heading */
 .page-header {
-	margin: 50px 0;
+	margin-top: 50px;
+	margin-bottom: 50px;
 	border-bottom: 1px solid #f6f6f6;
 }
 
@@ -115,4 +121,33 @@ footer {
 	background-color: #333;
 	color: #fff;
 	padding: 10px 0;
+}
+
+/* Image Uploader */
+.qq-uploader {
+	border: 1px dashed #eee;
+	background-color: #f6f6f6;
+	padding: 10px;
+	border-radius: 5px;
+}
+.qq-upload-drop-area {
+	background: #B2DFFF;
+	border-radius: 5px;
+	border: 1px dashed #086bb5;
+}
+.qq-upload-button {
+	background: #086bb5;
+	border-radius: 5px;
+}
+
+/* Spacers */
+.spacer-50-top {
+	margin-top: 50px;
+}
+.small-margin {
+	margin-bottom: 20px;
+}
+.small-margin-both {
+	margin-bottom: 20px;
+	margin-top: 0;
 }

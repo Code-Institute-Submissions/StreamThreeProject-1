@@ -9,9 +9,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 	<link href="{% static 'lib/css/bootstrap.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css">
 	{% block header_code %}
 	{% endblock %}
+	<link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<header>
@@ -42,21 +42,20 @@
 				</div>
 			</div>
 		</nav>
-	</header>
-	<main>
-		<section>
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="page-header">
-							<h1>{{ pageTitle }}</h1>
-						</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="page-header">
+						<h1>{{ pageTitle }}</h1>
 					</div>
 				</div>
-				{% block main_content %}
-				{% endblock %}
 			</div>
-		</section>
+		</div>
+	</header>
+	<main>
+		{% block main_content %}
+		{% endblock %}
 	</main>
 	<footer>
 		<div class="container-fluid footer-top">

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block header_code %}
+	<script src="https://js.stripe.com/v2/" type="text/javascript"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		Stripe.publishableKey = '{{ publishable }}';
+		//]]>
+	</script>
+{% endblock %}
+
+{% block main_content %}
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="jumbotron bg-info">
+						<div class="container">
+							<h2>You are about to pay for our {{ service }} service.</h2>
+							<p>A Total of £{{ quoteAmount | intcomma }} will be taken from your credit/debit card</p>
+						</div>
+					</div>
+					{% if messages %}
+						<div class="alert alert-danger">
+							<div class="messages">
+								{% for message in messages %}
+									{{ message }}
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+					<div id="credit-card-errors" style="display:none">
+						<div class="alert alert-danger" id="stripe-error-message"></div>
+					</div>
+					<form action="" id="quotePayment" method="post">
+						{% csrf_token %}
+						{{ form }}
+
+						<div class="form-group">
+							<p>
+								<input type="submit" value="Validate and Pay" class="btn btn-primary pull-right">
+								<a href="{% url 'view_quote' quote_id %}" class="btn btn-danger pull-left">Cancel</a>
+							</p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block footer_js %}
+	<script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
+{% endblock %}

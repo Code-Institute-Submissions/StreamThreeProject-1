@@ -4,3 +4,4 @@ django-tinymce=2.7.0
 Pillow=5.1.0
 googlemaps=2.5.1
 ajaxuploader=0.3.8
+stripe=1.79.1

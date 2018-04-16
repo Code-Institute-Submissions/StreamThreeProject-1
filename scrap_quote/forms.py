@@ -5,6 +5,7 @@ from .models import Quote, QuoteImages
 import math
 
 
+# form to create/edit scrap quotations
 class QuotationForm(forms.ModelForm):
 
 	# add 'form-control' class to all fields on the form.
@@ -53,7 +54,7 @@ class QuotationForm(forms.ModelForm):
 		# if metres has been selected.
 		else:
 			
-			# return the ceiling of length multipled by 3.3
+			# return the ceiling of length multiplied by 3.3
 			return math.ceil(_length * 3.3)
 
 
@@ -75,3 +76,31 @@ class QuotationForm(forms.ModelForm):
 
 			# return the ceiling of weight divided by 1000
 			return math.ceil(_weight / 1000)
+
+
+# form to pay for a quote.
+class PayForQuoteForm(forms.Form):
+
+	# add 'form-control' class to all fields on the form.
+	def __init__(self, *args, **kwargs):
+		super(forms.Form, self).__init__(*args, **kwargs)
+		for field_name, field in self.fields.items():
+			field.widget.attrs['class'] = 'form-control'
+
+
+	MONTH_ABBREVIATIONS = [
+		'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
+		'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'
+	]
+	MONTH_CHOICES = list(enumerate(MONTH_ABBREVIATIONS, 1))
+	YEAR_CHOICES = [(i, i) for i in range(2018, 2036)]
+
+	credit_card_number = forms.CharField(label="Credit Card Number")
+	cvv = forms.CharField(label="Security Code (CVV)")
+	expiry_month = forms.ChoiceField(label="Month", choices=MONTH_CHOICES)
+	expiry_year = forms.ChoiceField(label="Year", choices=YEAR_CHOICES)
+	payment_id = forms.CharField(widget=forms.HiddenInput)
+
+
+	class Meta:
+		fields = ['credit_card_number', 'cvv', 'expiry_month', 'expiry_year', 'payment_id']

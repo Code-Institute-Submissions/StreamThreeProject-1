@@ -1,5 +1,258 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block header_code %}
+	<link href="{% static 'lib/css/fileuploader.css' %}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.4/jquery.fancybox.min.css" />
+	<script src="{% static 'lib/js/fileuploader.js' %}"></script>
+{% endblock %}
 
 {% block main_content %}
-	<h1>Quote will be here</h1>
+	<section>
+		<div class="container">
+			<!-- Reference, Status and Options -->
+			<div class="row">
+				<div class="col-xs-12 col-sm-4">
+					<div class="page-header small-margin-both">
+						<h4>Ref</h4>
+					</div>
+					<p><b>Quote Number:</b> BB-SCRAP-{{ quote.pk | stringformat:"05d" }}</p>
+					<p><b>Date:</b> {{ quote.created_at | date:"d/m/Y"}}</p>
+					<p><b>Latest Activity:</b> {{ statusUpdate }} <a href="{% url 'activity_log' quote.pk %}"><i class="fas fa-history"></i> View Log</a></p>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-sm-offset-4">
+					<div class="page-header small-margin-both text-right">
+						<h4>Options</h4>
+					</div>
+					{% if not quote.is_paid and not quote.is_declined %}
+						<p><a href="{% url 'edit_quote' quote.id %}" class="btn btn-primary btn-block"><i class="fas fa-edit fa-fw"></i> Edit This Quote</a></p>
+					{% endif %}
+					{% if user.is_staff and not quote.is_approved and not quote.user == None %}
+						<p><a href="{% url 'approve_quote' quote.id %}" class="btn btn-success btn-block approve"><i class="fas fa-check-circle fa-fw"></i> Approve This Quote</a></p>
+					{% endif %}
+					{% if quote.user == user and quote.is_approved and not quote.is_declined and not quote.is_paid %}
+						<p><a href="{% url 'decline_quote' quote.id %}" class="btn btn-danger btn-block decline"><i class="fas fa-times-circle fa-fw"></i> Decline This Quote</a></p>
+					{% endif %}
+					{% if user.is_staff %}
+						<p><a href="#" class="btn btn-block btn-info"><i class="fas fa-tasks"></i> Add a new Activity Update</a></p>
+					{% endif %}
+				</div>
+			</div>
+
+			<!-- Quote -->
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="page-header small-margin">
+						<h4>Quote</h4>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-5 col-sm-offset-1">
+					<div class="panel {% if quote.payment_type == 'a' %} panel-success {% else %} panel-default {% endif %}">
+						<div class="panel-heading">
+							<h3 class="panel-title text-center">All Inclusive</h3>
+						</div>
+						<div class="panel-body text-center">
+							<h2>
+								&pound;{{ quote.all_inclusive_total | intcomma }}
+								{% if quote.all_inclusive_monthly != 0 %}
+									<br /><small>or<br />10 Payments of &pound;{{ quote.all_inclusive_monthly | intcomma }}</small>
+								{% endif %}
+							</h2>
+							{% if quote.user == user and quote.is_approved and not quote.is_paid and not quote.is_declined %}
+								<a href="{% url 'pay_quote' quote.id 'all' %}" class="btn btn-primary">Pay for All Inclusive</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-5">
+					<div class="panel {% if quote.payment_type == 'd' %} panel-success {% else %} panel-default {% endif %}">
+						<div class="panel-heading">
+							<h3 class="panel-title text-center">Disposal Only</h3>
+						</div>
+						<div class="panel-body text-center">
+							<h2>
+								&pound;{{ quote.scrap_only_total | intcomma }}
+								{% if quote.scrap_only_monthly != 0 %}
+									<br /><small>or<br />10 Payments of &pound;{{ quote.scrap_only_monthly | intcomma }}</small>
+								{% endif %}
+							</h2>
+							{% if quote.user == user and quote.is_approved and not quote.is_paid and not quote.is_declined %}
+								<a href="{% url 'pay_quote' quote.id 'disposal' %}" class="btn btn-primary">Pay for Disposal Only</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Quote Summary -->
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="page-header small-margin">
+						<a role="button" data-toggle="collapse" href="#quoteSummary" aria-expanded="false" aria-controls="quoteSummary"><h4>Summary <small>Click to show</small></h4></a>
+					</div>
+				</div>
+			</div>
+			<div class="collapse" id="quoteSummary">
+				<div class="row">
+					<div class="col-sm-4">
+						<p><b>Boat Type :</b> {{ quote.type_of_boat }}</p>
+						<p><b>Keel Type :</b> {{ quote.keel_type }}</p>
+						<p><b>Length :</b> {{ quote.boat_length }} ft</p>
+						<p><b>Weight :</b> {{ quote.boat_weight }} tonnes</p>
+						<p><b>Hull Material :</b> {{ quote.hull_material }}</p>
+						<p><b>Hazardous Materials :</b> 
+							{% for mat in quote.hazardous_mats.all %}
+								{% if forloop.last %}
+									{{ mat.mat_type }}
+								{% else %}
+									{{ mat.mat_type }}, 
+								{% endif %}
+							{% endfor %}
+						</p>
+					</div>
+					<div class="col-sm-4">
+						<p><b>Engine :</b> {{ quote.engine }}</p>
+						<p><b>Make :</b> {{ quote.engine_make }}</p>
+						<p><b>Cylinders :</b> {{ quote.engine_cylinders }}</p>
+						<p><b>Hours Run :</b> {{ quote.engine_hours }}</p>
+						<p><b>Still Run :</b> {{ quote.engine_still_run }}</p>
+					</div>
+					<div class="col-sm-4">
+						<p><b>Scap at Location :</b> {{ quote.scrap_at_location }}</p>
+						<p><b>Boat in the Water :</b> {{ quote.boat_in_water }}</p>
+						<p><b>Has a Trailer :</b> {{ quote.has_trailer }}</p>
+						<p><b>Boat Location :</b> {{ quote.boat_location }}</p>
+						<p><b>Travel Distance :</b> {{ quote.travel_distance }} miles</p>
+					</div>
+				</div>
+				<div class="row col-xs-12">
+					<p>
+						<b>Additional Information</b>
+					</p>
+					{{ quote.additional_info | safe }}
+				</div>
+			</div>
+			
+			<!-- Messages and Images -->
+			<div class="row">
+				<!-- Messages -->
+				<div class="col-sm-6">
+					<div class="page-header small-margin">
+						<h4>Messages</h4>
+					</div>
+				</div>
+
+				<!-- Images -->
+				<div class="col-sm-6">
+					<div class="page-header small-margin">
+						<h4>Images</h4>
+					</div>
+					{% for image in images %}
+						{% if forloop.first %}
+							<div class="row row-inner small-margin">
+						{% endif %}
+						{% if forloop.counter0|divisibleby:"3" and not forloop.first %}
+							</div>
+							<div class="row row-inner small-margin">
+						{% endif %}
+						<div class="col-sm-4">
+							<a href="{{ image.file_path }}" data-fancybox="gallery"><img src="{{ image.file_path }}" class="img-thumbnail img-responsive" /></a>
+						</div>
+						{% if forloop.last %}
+							</div>
+						{% endif %}
+					{% empty %}
+						<div class="col-xs-12">
+							<div class="alert alert-danger">
+								<div class="media">
+									<div class="media-left media-middle">
+										<i class="fas fa-frown fa-fw fa-3x"></i>
+									</div>
+									<div class="media-body">
+										<h4 class="media-heading">No Images</h4>
+										<p>
+											You have not uploaded any images related to this quote yet. You can easily upload some by dragging and dropping any image file into the box below.
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+					{% if not quote.is_declined and not quote.is_paid %}
+					<div class="col-xs-12 spacer-50-top">
+						<div id="file-uploader">       
+							<noscript>
+								<p>Please enable JavaScript to use file uploader.</p>
+							</noscript>
+						</div>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block footer_js %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.4/jquery.fancybox.min.js"></script>
+	<script src="{% static 'lib/js/jquery.confirm.min.js' %}"></script>
+	<script>
+		{% if not quote.is_declined and not quote.is_paid %}
+		$(function(){
+			// create the fileuploader object and handle the uploading of images.
+			var uploader = new qq.FileUploader({
+				action: "{% url 'quote_image_ajax' %}",
+				allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'bmp'],
+				element: $('#file-uploader')[0],
+				multiple: true,
+				onComplete: function(id, fileName, responseJSON) {
+					if(responseJSON.success) {
+						//alert("success!");
+					} else {
+						alert("There was an error on the server while trying to upload your images. Please try again later.");
+					}
+				},
+				onAllComplete: function(uploads) {
+					// uploads is an array of maps
+					// the maps look like this: {file: FileObject, response: JSONServerResponse}
+					// alert("All complete!");
+				},
+				params: {
+					'csrf_token': '{{ csrf_token }}',
+					'csrf_name': 'csrfmiddlewaretoken',
+					'csrf_xname': 'X-CSRFToken',
+					'quote_id': '{{ quote.pk }}'
+				},
+			});
+		});
+		{% endif %}
+
+		{% if user.is_staff %}
+		// message to confirm the user wants to approve the quote.
+		$(".approve").confirm({
+			text: "Approving this quote will allow {{ quote.user }} to pay for the quote online and start the scrap process. Only press Yes if you are sure the quote is accurate. If {{ quote.user.first_name }} makes any changes to the quote, you will need to Approve it again.",
+			title: "Quotation Approval",
+			confirmButton: "Approve This Quote",
+			cancelButton: "Cancel",
+			confirmButtonClass: "btn-success",
+			cancelButtonClass: "btn-default",
+			dialogClass: "modal-dialog"
+		});
+		{% endif %}
+		{% if quote.user == user %}
+		// message to confirm the user wants to decline the quote.
+		$(".decline").confirm({
+			text: "Are you sure you want to decline this quote? Once you have declined it, you will no longer be able to edit it, send any messages to us regarding this quote or upload any additional images relating to this quotation. You will still be able to view the quote for your own reference.",
+			title: "Decline This Quote",
+			confirmButton: "Decline This Quote",
+			cancelButton: "Cancel",
+			confirmButtonClass: "btn-danger",
+			cancelButtonClass: "btn-default",
+			dialogClass: "modal-dialog"
+		});
+		{% endif %}
+	</script>
 {% endblock %}

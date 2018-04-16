@@ -124,9 +124,9 @@ def my_account(request):
 
 	# get scrap quotes for the user.
 	if request.user.is_staff:
-		quotes = Quote.objects.all()
+		quotes = Quote.objects.all().order_by('-created_at')
 	else:
-		quotes = Quote.objects.filter(user=request.user)
+		quotes = Quote.objects.filter(user=request.user).order_by('-created_at')
 
 	# page arguments.
 	args = {
