@@ -2,9 +2,11 @@
 
 ## Brief
 
-The company I currently work for specialises in buying, selling and disposing of boats. We currently have a ['Scrap Calculator'](http://www.boatbreakers.com/scrap-a-boat/scrap-your-boat/) in place already, which is functional but has many limitations. The goal of my project is to re-develop the existing system into something which is easy to use and provides a lot more features.
+The company I currently work for specialises in buying, selling and disposing of boats. We currently have a ['Scrap Calculator'](http://www.boatbreakers.com/scrap-a-boat/scrap-your-boat/) in place already, which is functional but has many limitations. The current system is a simple e-mail form that collects their information and then e-mails that information for processing, there is no ability for the user after that to edit, update or track what is happening with the quote after they have sent it in. 
 
 ## Project Functionality
+
+The goal of this project is to re-develop the existing system. The information that is collected will been streamlined to reduce the amount the end user needs to enter. A Registration system will be developed, allowing users to enter their contact details once and store them on our servers. This will enable them to login and submit a quote, edit the quote, track what is happening, upload any supporting image files relating to that quote, contact a member of staff about their quote and pay for the quote online.
 
 * User Management
 	* Allow Users to Register to the website
@@ -46,6 +48,7 @@ The company I currently work for specialises in buying, selling and disposing of
 	* [Google Maps 2.5.1](https://github.com/googlemaps/google-maps-services-python) - Used to preform distance calculations between two postcodes as part of the scrap quotation.
 	* [Django TinyMCE 2.7.0](https://github.com/aljosa/django-tinymce) - Used to add TinyMCE to Django.
 	* [django-ajax-uploader](https://github.com/skoczen/django-ajax-uploader) - Used to add AJAX image uploading.
+	* [Stripe 1.79.1](https://pypi.org/project/stripe/) - Used to make online payments for the quotations.
 
 ## Testing
 
