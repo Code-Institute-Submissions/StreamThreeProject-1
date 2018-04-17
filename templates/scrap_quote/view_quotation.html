@@ -35,7 +35,7 @@
 						<p><a href="{% url 'decline_quote' quote.id %}" class="btn btn-danger btn-block decline"><i class="fas fa-times-circle fa-fw"></i> Decline This Quote</a></p>
 					{% endif %}
 					{% if user.is_staff %}
-						<p><a href="#" class="btn btn-block btn-info"><i class="fas fa-tasks"></i> Add a new Activity Update</a></p>
+						<p><a href="{% url 'add_activity' quote.id %}" class="btn btn-block btn-info"><i class="fas fa-tasks"></i> Add a new Activity Update</a></p>
 					{% endif %}
 				</div>
 			</div>
@@ -50,17 +50,27 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-5 col-sm-offset-1">
-					<div class="panel {% if quote.payment_type == 'a' %} panel-success {% else %} panel-default {% endif %}">
+					<div class="panel {% if quote.payment_type == 'a' and quote.is_paid %} panel-success {% else %} panel-default {% endif %}">
 						<div class="panel-heading">
 							<h3 class="panel-title text-center">All Inclusive</h3>
 						</div>
 						<div class="panel-body text-center">
-							<h2>
-								&pound;{{ quote.all_inclusive_total | intcomma }}
-								{% if quote.all_inclusive_monthly != 0 %}
-									<br /><small>or<br />10 Payments of &pound;{{ quote.all_inclusive_monthly | intcomma }}</small>
-								{% endif %}
-							</h2>
+							{% if quote.payment_type == 'a' and quote.is_paid %}
+								<h2 class="text-success">
+									<i class="fas fa-check-circle fa-fw"></i> Paid
+								</h2>
+							{% elif quote.payment_type == 'd' and quote.is_paid %}
+								<h2 class="text-muted">
+									<i class="fas fa-ban fa-fw"></i> Not Selected
+								</h2>
+							{% elif not quote.is_paid %}
+								<h2>
+									&pound;{{ quote.all_inclusive_total | intcomma }}
+									{% if quote.all_inclusive_monthly != 0 %}
+										<br /><small>or<br />10 Payments of &pound;{{ quote.all_inclusive_monthly | intcomma }}</small>
+									{% endif %}
+								</h2>
+							{% endif %}
 							{% if quote.user == user and quote.is_approved and not quote.is_paid and not quote.is_declined %}
 								<a href="{% url 'pay_quote' quote.id 'all' %}" class="btn btn-primary">Pay for All Inclusive</a>
 							{% endif %}
@@ -68,17 +78,27 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-5">
-					<div class="panel {% if quote.payment_type == 'd' %} panel-success {% else %} panel-default {% endif %}">
+					<div class="panel {% if quote.payment_type == 'd' and quote.is_paid %} panel-success {% else %} panel-default {% endif %}">
 						<div class="panel-heading">
 							<h3 class="panel-title text-center">Disposal Only</h3>
 						</div>
 						<div class="panel-body text-center">
-							<h2>
-								&pound;{{ quote.scrap_only_total | intcomma }}
-								{% if quote.scrap_only_monthly != 0 %}
-									<br /><small>or<br />10 Payments of &pound;{{ quote.scrap_only_monthly | intcomma }}</small>
-								{% endif %}
-							</h2>
+							{% if quote.payment_type == 'd' and quote.is_paid %}
+								<h2 class="text-success">
+									<i class="fas fa-check-circle fa-fw"></i> Paid
+								</h2>
+							{% elif quote.payment_type == 'a' and quote.is_paid %}
+								<h2 class="text-muted">
+									<i class="fas fa-ban fa-fw"></i> Not Selected
+								</h2>
+							{% elif not quote.is_paid %}
+								<h2>
+									&pound;{{ quote.scrap_only_total | intcomma }}
+									{% if quote.scrap_only_monthly != 0 %}
+										<br /><small>or<br />10 Payments of &pound;{{ quote.scrap_only_monthly | intcomma }}</small>
+									{% endif %}
+								</h2>
+							{% endif %}
 							{% if quote.user == user and quote.is_approved and not quote.is_paid and not quote.is_declined %}
 								<a href="{% url 'pay_quote' quote.id 'disposal' %}" class="btn btn-primary">Pay for Disposal Only</a>
 							{% endif %}
@@ -182,14 +202,20 @@
 						</div>
 					{% endfor %}
 					{% if not quote.is_declined and not quote.is_paid %}
-					<div class="col-xs-12 spacer-50-top">
-						<div id="file-uploader">       
-							<noscript>
-								<p>Please enable JavaScript to use file uploader.</p>
-							</noscript>
+						<div class="col-xs-12 spacer-50-top">
+							<div id="file-uploader">       
+								<noscript>
+									<p>Please enable JavaScript to use file uploader.</p>
+								</noscript>
+							</div>
 						</div>
-					</div>
 					{% endif %}
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<a href="{% url 'my_account' %}" class="btn btn-primary">Back to My Account</a>
 				</div>
 			</div>
 		</div>
@@ -231,28 +257,28 @@
 		{% endif %}
 
 		{% if user.is_staff %}
-		// message to confirm the user wants to approve the quote.
-		$(".approve").confirm({
-			text: "Approving this quote will allow {{ quote.user }} to pay for the quote online and start the scrap process. Only press Yes if you are sure the quote is accurate. If {{ quote.user.first_name }} makes any changes to the quote, you will need to Approve it again.",
-			title: "Quotation Approval",
-			confirmButton: "Approve This Quote",
-			cancelButton: "Cancel",
-			confirmButtonClass: "btn-success",
-			cancelButtonClass: "btn-default",
-			dialogClass: "modal-dialog"
-		});
+			// message to confirm the user wants to approve the quote.
+			$(".approve").confirm({
+				text: "Approving this quote will allow {{ quote.user }} to pay for the quote online and start the scrap process. Only press Yes if you are sure the quote is accurate. If {{ quote.user.first_name }} makes any changes to the quote, you will need to Approve it again.",
+				title: "Quotation Approval",
+				confirmButton: "Approve This Quote",
+				cancelButton: "Cancel",
+				confirmButtonClass: "btn-success",
+				cancelButtonClass: "btn-default",
+				dialogClass: "modal-dialog"
+			});
 		{% endif %}
 		{% if quote.user == user %}
 		// message to confirm the user wants to decline the quote.
-		$(".decline").confirm({
-			text: "Are you sure you want to decline this quote? Once you have declined it, you will no longer be able to edit it, send any messages to us regarding this quote or upload any additional images relating to this quotation. You will still be able to view the quote for your own reference.",
-			title: "Decline This Quote",
-			confirmButton: "Decline This Quote",
-			cancelButton: "Cancel",
-			confirmButtonClass: "btn-danger",
-			cancelButtonClass: "btn-default",
-			dialogClass: "modal-dialog"
-		});
+			$(".decline").confirm({
+				text: "Are you sure you want to decline this quote? Once you have declined it, you will no longer be able to edit it, send any messages to us regarding this quote or upload any additional images relating to this quotation. You will still be able to view the quote for your own reference.",
+				title: "Decline This Quote",
+				confirmButton: "Decline This Quote",
+				cancelButton: "Cancel",
+				confirmButtonClass: "btn-danger",
+				cancelButtonClass: "btn-default",
+				dialogClass: "modal-dialog"
+			});
 		{% endif %}
 	</script>
 {% endblock %}

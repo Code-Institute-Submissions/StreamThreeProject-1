@@ -8,6 +8,7 @@ from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
+import arrow
 
 from .forms import UserRegistrationForm, UserLoginForm
 from .models import User
@@ -124,7 +125,7 @@ def my_account(request):
 
 	# get scrap quotes for the user.
 	if request.user.is_staff:
-		quotes = Quote.objects.all().order_by('-created_at')
+		quotes = Quote.objects.filter(created_at__gte=arrow.now().replace(weeks=-1).datetime).order_by('-created_at')
 	else:
 		quotes = Quote.objects.filter(user=request.user).order_by('-created_at')
 

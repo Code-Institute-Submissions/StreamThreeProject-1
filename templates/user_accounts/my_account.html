@@ -6,12 +6,33 @@
 		<div class="container">
 			<p>Welcome, {{ user.first_name }}</p>
 	
-			<h2>Your Quotes</h2>
+			<a href="{% url 'new_quote' %}" class="btn btn-primary pull-right"><i class="fas fa-plus fa-fw"></i> New Quotation</a>
+			<div class="page-header small-margin">
+				{% if user.is_staff %}
+					<h4>Last 7 Days of Quotes</h4>
+				{% else %}
+					<h4>Your Quotes</h4>
+				{% endif %}
+			</div>
 			<div class="row">
+				{% if user.is_staff %}
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="jumpToQuoteID" class="control-label">Enter Quote Ref</label>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Enter Quote ID" id="jumpToQuoteID">
+								<span class="input-group-btn">
+									<button class="btn btn-default" id="jumpToQuote">View</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				{% endif %}
 				<div class="col-xs-12">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover">
 							<tr>
+								<th>ID</th>
 								<th>Date</th>
 								<th>Quote Type</th>
 								<th>Posted By</th>
@@ -22,6 +43,7 @@
 							</tr>
 							{% for quote in quotes %}
 								<tr onclick="location.href='{% url 'view_quote' quote.id %}'">
+									<td><a href="{% url 'view_quote' quote.id %}">{{ quote.pk | stringformat:"05d" }}</a></td>
 									<td>{{ quote.created_at | date:"d/m/Y" }}</td>
 									<td><a href="{% url 'view_quote' quote.id %}">{{ quote }}</a></td>
 									<td>{{ quote.user }}</td>
@@ -48,7 +70,6 @@
 										{% endif %}
 									</td>
 								</tr>
-								
 							{% endfor %}
 						</table>
 					</div>
@@ -56,6 +77,28 @@
 			</div>
 		</div>
 	</section>
-	
-	
+{% endblock %}
+
+{% block footer_js %}
+	{% if user.is_staff %}
+		<script>
+			// click function to jump to any quote by its reference.
+			$("#jumpToQuote").on("click", function() {
+				// get the quote id from the text box.
+				var quoteID = $("#jumpToQuoteID").val();
+
+				// check for a valid numeric value
+				if ($.isNumeric(quoteID)) {
+					// build the url.
+					var url = '/quote/view/' + quoteID + '/';
+
+					// redirect to the quote.
+					$(location).attr('href', url);
+				} else {
+					// display error message.
+					alert("Please enter a number.")
+				}
+			});
+		</script>
+	{% endif %}
 {% endblock %}
