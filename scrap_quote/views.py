@@ -18,7 +18,7 @@ import googlemaps
 from ajaxuploader.views import AjaxFileUploader
 import stripe
 
-from .forms import QuotationForm, PayForQuoteForm
+from .forms import QuotationForm, PayForQuoteForm, ActivityLogForm
 from .models import Quote, QuoteImages, QuoteLog, QuoteLogStatus
 
 
@@ -478,3 +478,59 @@ def pay_quotation(request, quote_id, payment_type):
 
 		# display error message.
 		return render(request, 'scrap_quote/not_your_quote.html')
+
+
+# view to add a new activity to a quote.
+@login_required
+def add_quote_activity(request, quote_id):
+
+	# check if the user is a member of staff
+	if request.user.is_staff:
+
+		# get the quote.
+		quote = get_object_or_404(Quote, pk=quote_id)
+
+		# if the request is a post.
+		if request.method == "POST":
+
+			# get the form.
+			form = ActivityLogForm(request.POST)
+
+			# check that the form is valid.
+			if form.is_valid():
+
+				# capture the form details.
+				log = form.save(commit=False)
+
+				# update additional fields
+				log.user = request.user
+				log.quote = quote
+				log.ip_address = request.META['REMOTE_ADDR']
+
+				# save the log.
+				log.save()
+
+				# return to the view quotation page.
+				return redirect(view_quotation, quote_id)
+
+		# if not a post
+		else:
+
+			# create the form
+			form = ActivityLogForm()
+
+		args = {
+			'pageTitle' : 'Add Activity to Quote: BB-SCRAP-{0:0>5}'.format(quote.pk),
+			'form' : form,
+			'quote_id': quote.pk
+		}
+		args.update(csrf(request))
+
+		# render the page.
+		return render(request, 'scrap_quote/new_activity.html', args)
+
+	# if not a staff member.
+	else:
+
+		# return to the view quotation page.
+		return redirect(view_quotation, quote_id)

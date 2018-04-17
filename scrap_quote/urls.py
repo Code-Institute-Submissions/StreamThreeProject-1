@@ -14,7 +14,8 @@ urlpatterns = [
 	# view quotation.
 	url(r'^view/(?P<quote_id>\d+)/$', views.view_quotation, name="view_quote"),  # view quotation.
 	url(r'^activity_log/(?P<quote_id>\d+)/$', views.quote_activity_log, name="activity_log"),  # quotation activity log.
+	url(r'^activity_log/new/(?P<quote_id>\d+)$', views.add_quote_activity, name="add_activity"),  # add a new activity to the log.
 
 	# ajax image uploader.
-	url(r'ajax-upload$', views.import_uploader, name="quote_image_ajax"),
+	url(r'ajax-upload$', views.import_uploader, name="quote_image_ajax"),  # used to upload images via ajax.
 ]

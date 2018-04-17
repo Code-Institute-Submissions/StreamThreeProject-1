@@ -7,10 +7,6 @@
 	<script>
 		{% include 'includes/tinymce.js' %}
 	</script>
-	{% if is_edit %}
-		<link href="{% static 'lib/css/fileuploader.css' %}" rel="stylesheet" type="text/css"> 
-		<script src="{% static 'lib/js/fileuploader.js' %}"></script>
-	{% endif %}
 {% endblock %}
 
 {% block main_content %}
@@ -20,9 +16,6 @@
 				<form role="form" method="post" class="form-horizontal">
 					{% csrf_token %}
 					{% include "scrap_quote/forms/scrap_quote.html" %}
-					{% if is_edit %}
-						
-					{% endif %}
 					<input type="submit" value="Submit" class="btn btn-primary pull-right">
 				</form>
 			</div>
@@ -34,10 +27,6 @@
 {% block footer_js %}
 	<script src="{% static 'lib/js/postcodes.min.js' %}"></script>
 	<script src="{% static 'lib/js/ideal-postcodes-autocomplete.min.js' %}"></script>
-	{% if is_edit %}
-		
-	{% endif %}
-
 	<script>
 		var controller = new IdealPostcodes.Autocomplete.Controller({
 			api_key: "iddqd",

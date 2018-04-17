@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Quote, QuoteImages
+from .models import Quote, QuoteImages, QuoteLog, QuoteLogStatus
 import math
 
 
@@ -104,3 +104,22 @@ class PayForQuoteForm(forms.Form):
 
 	class Meta:
 		fields = ['credit_card_number', 'cvv', 'expiry_month', 'expiry_year', 'payment_id']
+
+
+# form to add a new activity update to a quote.
+class ActivityLogForm(forms.ModelForm):
+
+	# add 'form-control' class to all fields on the form.
+	def __init__(self, *args, **kwargs):
+		super(forms.ModelForm, self).__init__(*args, **kwargs)
+		for field_name, field in self.fields.items():
+			field.widget.attrs['class'] = 'form-control'
+
+	# fields
+	status = forms.ModelChoiceField(queryset=QuoteLogStatus.objects.filter(id__gt=6))
+
+	class Meta:
+		model = QuoteLog
+		fields = ['status', 'comment']
+		exclude = ['quote', 'user', 'ip_address']
+
