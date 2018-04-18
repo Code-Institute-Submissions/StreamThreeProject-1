@@ -1,1 +1,12 @@
--r requirements/staging.txt
+Django==1.11.11
+django-tinymce==2.7.0
+Pillow==5.1.0
+googlemaps==2.5.1
+ajaxuploader==0.3.8
+stripe==1.79.1
+arrow==0.12.1
+python-dateutil==2.7.2
+six==1.11.0
+wheel==0.30.0
+gunicorn==19.4
+mysql-python==1.2.5
