@@ -4,8 +4,44 @@
 {% block main_content %}
 	<section>
 		<div class="container">
-			<p>Welcome, {{ user.first_name }}</p>
-	
+			{% if user.is_staff %}
+
+			{% else %}
+				<p>
+					Welcome, {{ user.first_name }} to your account dashboard. From here you can view all the quotes you have submitted to us and track what is happening to each quote.
+				</p>
+			{% endif %}
+
+			{% if quoteMessages.exists %}
+			<div class="page-header small-margin">
+				{% if user.is_staff %}
+					<h4>Messages Awaiting Review</h4>
+				{% endif %}
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover">
+							<tr>
+								<th>ID</th>
+								<th>Date</th>
+								<th>Quote Type</th>
+								<th>Posted By</th>
+							</tr>
+							{% for message in quoteMessages %}
+								<tr onclick="location.href='{% url 'view_quote' message.quote.id %}'">
+									<td><a href="{% url 'view_quote' message.quote.id %}">{{ message.quote.pk | stringformat:"05d" }}</a></td>
+									<td>{{ message.created_at | date:"d/m/Y" }}</td>
+									<td><a href="{% url 'view_quote' message.quote.id %}">{{ message.quote }}</a></td>
+									<td>{{ message.user }}</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+
 			<a href="{% url 'new_quote' %}" class="btn btn-primary pull-right"><i class="fas fa-plus fa-fw"></i> New Quotation</a>
 			<div class="page-header small-margin">
 				{% if user.is_staff %}
@@ -36,7 +72,7 @@
 								<th>Date</th>
 								<th>Quote Type</th>
 								<th>Posted By</th>
-								<th class="text-right">Price<br /><small>All Inclusive / Scrap Only</small></th>
+								<th class="text-center">Price<br /><small>All Inclusive / Scrap Only</small></th>
 								<th class="text-center">Approved?</th>
 								<th class="text-center">Declined?</th>
 								<th class="text-center">Paid?</th>
@@ -47,7 +83,7 @@
 									<td>{{ quote.created_at | date:"d/m/Y" }}</td>
 									<td><a href="{% url 'view_quote' quote.id %}">{{ quote }}</a></td>
 									<td>{{ quote.user }}</td>
-									<td class="text-right">£{{ quote.all_inclusive_total | intcomma }} / £{{ quote.scrap_only_total | intcomma }}</td>
+									<td class="text-center">£{{ quote.all_inclusive_total | intcomma }} / £{{ quote.scrap_only_total | intcomma }}</td>
 									<td class="text-center">
 										{% if quote.is_approved %}
 											<i class="fas fa-check-circle text-success"></i>

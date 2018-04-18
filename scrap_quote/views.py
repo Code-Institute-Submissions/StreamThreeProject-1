@@ -18,8 +18,8 @@ import googlemaps
 from ajaxuploader.views import AjaxFileUploader
 import stripe
 
-from .forms import QuotationForm, PayForQuoteForm, ActivityLogForm
-from .models import Quote, QuoteImages, QuoteLog, QuoteLogStatus
+from .forms import QuotationForm, PayForQuoteForm, ActivityLogForm, QuoteMessageForm
+from .models import Quote, QuoteImages, QuoteLog, QuoteLogStatus, QuoteMessages
 
 
 # set up stripe
@@ -195,13 +195,45 @@ def view_quotation(request, quote_id):
 	quote = get_object_or_404(Quote, pk=quote_id)
 	quoteImages = QuoteImages.objects.filter(quote=quote_id)
 	quoteStatus = QuoteLog.objects.filter(quote=quote_id).order_by('created_at').last()
+	quoteMessages = QuoteMessages.objects.filter(quote=quote_id).order_by('created_at')
 
 	# check the quote belongs to the user, or is a member of staff viewing it.
 	if quote.user == request.user or request.user.is_staff:
+
+		# if a staff member is viewing the quote.
+		if request.user.is_staff:
+
+			# filter the quote messages further to find all unread message left by users.
+			quoteMessagesFilter = quoteMessages.filter(is_read=False).filter(user__is_staff=False)
+
+		else:
+
+			# filter the quote messages further to find all unread messages left by staff.
+			quoteMessagesFilter = quoteMessages.filter(is_read=False).filter(user__is_staff=True)
+
+		# if any messages exist.
+		if quoteMessagesFilter.exists():
+
+			# loop over messages.
+			for message in quoteMessagesFilter:
+
+				# get the message.
+				_message = get_object_or_404(QuoteMessages, pk=message.pk)
+
+				# update it to show it as seen.
+				_message.is_read = True
+				_message.read_by = request.user
+				_message.date_read = timezone.now()
+
+				# save the message.
+				_message.save()
+
+		# page arguments
 		args = {
 			'quote' : quote,
 			'images' : quoteImages,
 			'statusUpdate' : quoteStatus,
+			'quoteMessages' : quoteMessages,
 			'pageTitle' : 'View Quotation',
 		}
 
@@ -434,7 +466,7 @@ def pay_quotation(request, quote_id, payment_type):
 								quote=Quote.objects.get(pk=quote.pk), 
 								user=request.user, 
 								status=QuoteLogStatus.objects.get(pk=5), 
-								comment="Thankyou, a payment for our {0} service in the amount of £{1}.00 has been made by".format(amount_to_pay[payment_type]["status"], amount_to_pay[payment_type]["amount"]), 
+								comment="Thank you, a payment for our {0} service in the amount of £{1}.00 has been made by".format(amount_to_pay[payment_type]["status"], amount_to_pay[payment_type]["amount"]), 
 								ip_address=request.META['REMOTE_ADDR']
 							)
 							logEntry.save()
@@ -534,3 +566,59 @@ def add_quote_activity(request, quote_id):
 
 		# return to the view quotation page.
 		return redirect(view_quotation, quote_id)
+
+
+# view to handle the adding of a new message.
+@login_required
+def add_new_message(request, quote_id):
+
+	# get the quote.
+	quote = get_object_or_404(Quote, pk=quote_id)
+
+	# check that the quote belongs to the user or is a member of staff
+	if quote.user == request.user or request.user.is_staff:
+
+		# if request is a POST
+		if request.method == "POST":
+
+			# get the form data
+			form = QuoteMessageForm(request.POST)
+
+			# check the form is valid.
+			if form.is_valid():
+
+				# capture the data.
+				message = form.save(commit=False)
+
+				# update additional fields
+				message.quote = quote
+				message.user = request.user
+
+				# save the data
+				message.save()
+
+				# return the the view quotation page.
+				return redirect(view_quotation, quote.pk)
+
+		# anything else, display the blank form.		
+		else:
+
+			# generate the form.
+			form = QuoteMessageForm()
+
+		# page arguments.
+		args = {
+			'pageTitle' : 'New Message For Quote: BB-SCRAP-{0:0>5}'.format(quote.pk),
+			'form' : form,
+			'quote_id': quote.pk
+		}
+		args.update(csrf(request))
+
+		# render the page.
+		return render(request, 'scrap_quote/new_message.html', args)
+
+	# if invalid user.
+	else:
+
+		# display error message.
+		return render(request, 'scrap_quote/not_your_quote.html')

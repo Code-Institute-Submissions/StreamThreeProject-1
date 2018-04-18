@@ -151,3 +151,68 @@ footer {
 	margin-bottom: 20px;
 	margin-top: 0;
 }
+
+/* View Quotation */
+.message-block {
+	overflow-y: scroll;
+	max-height: 500px;
+}
+.m-staff, .m-user {
+	width: 95%;
+	margin-bottom: 10px;
+}
+.m-staff .message {
+	background-color: #f6f6f6;
+	padding: 15px;
+	border-radius: 5px;
+	position: relative;
+}
+.m-staff .message:after {
+	content: '';
+	position: absolute;
+	height: 0;
+	width: 0;
+	left: 30px;
+	bottom: 0;
+	border: 20px solid transparent;
+	border-top-color: #f6f6f6;
+	border-bottom: 0;
+	border-left: 0;
+	margin-left: -16px;
+	margin-bottom: -15px;
+	clear: both;
+}
+.m-staff .meta {
+	font-size: 10px;
+	margin-left: 35px;
+	margin-top: 5px;
+}
+.m-user .message {
+	background-color: #086bb5;
+	color: #fff;
+	padding: 15px;
+	border-radius: 5px;
+	position: relative;
+	text-align: right;
+}
+.m-user .message:after {
+	content: '';
+	position: absolute;
+	height: 0;
+	width: 0;
+	right: 15px;
+	bottom: 0;
+	border: 20px solid transparent;
+	border-top-color: #086bb5;
+	border-bottom: 0;
+	border-right: 0;
+	margin-left: -16px;
+	margin-bottom: -15px;
+	clear: both;
+}
+.m-user .meta {
+	font-size: 10px;
+	margin-right: 35px;
+	margin-top: 5px;
+	text-align: right;
+}

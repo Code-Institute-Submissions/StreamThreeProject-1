@@ -63,6 +63,7 @@
 
 			// on change of the value of the engine field.
 			_engine.change(engine_change);
+			engine_change();
 
 			$('input:checkbox').removeClass('form-control');
 			$('#id_my_consent').prop('required', true);

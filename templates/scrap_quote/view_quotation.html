@@ -18,6 +18,7 @@
 						<h4>Ref</h4>
 					</div>
 					<p><b>Quote Number:</b> BB-SCRAP-{{ quote.pk | stringformat:"05d" }}</p>
+					{% if user.is_staff %}<p><b>Customer:</b> {{ quote.user }}</p>{% endif %}
 					<p><b>Date:</b> {{ quote.created_at | date:"d/m/Y"}}</p>
 					<p><b>Latest Activity:</b> {{ statusUpdate }} <a href="{% url 'activity_log' quote.pk %}"><i class="fas fa-history"></i> View Log</a></p>
 				</div>
@@ -163,6 +164,55 @@
 					<div class="page-header small-margin">
 						<h4>Messages</h4>
 					</div>
+					<div class="message-block">
+						{% for message in quoteMessages %}
+							{% if message.user.is_staff %}
+								<div class="m-staff pull-left">
+									<div class="message">
+										{{ message | safe }}
+									</div>
+									<div class="meta">
+										left by {{ message.user }} on {{ message.created_at | date:"l d F Y H:i" }}
+										{% if message.is_read %}
+											<br />seen by {{ message.read_by }} on {{ message.date_read | date:"l d F Y H:i" }}
+										{% endif %}
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							{% else %}
+								<div class="m-user pull-right">
+									<div class="message">
+										{{ message | safe }}
+									</div>
+									<div class="meta">
+										left by {{ message.user }} on {{ message.created_at | date:"l d F Y H:i" }}
+										{% if message.is_read %}
+											<br />seen by {{ message.read_by }} on {{ message.date_read | date:"l d F Y H:i" }}
+										{% endif %}
+									</div>
+									
+								</div>
+								<div class="clearfix"></div>
+							{% endif %}
+						{% empty %}
+							<div class="alert alert-warning">
+								<div class="media">
+									<div class="media-left media-middle">
+										<i class="fas fa-frown fa-fw fa-3x"></i>
+									</div>
+									<div class="media-body">
+										<h4 class="media-heading">No Messages</h4>
+										<p>
+											No Messages relating to this quote have been sent yet. If you have a question you would like to ask a member of staff, simply press the "New Message" button below to leave a message.
+										</p>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<a href="{% url 'add_message' quote.id %}" class="btn btn-primary btn-sm">
+						<i class="fas fa-plus fa-fw"></i> New Message
+					</a>
 				</div>
 
 				<!-- Images -->
@@ -178,7 +228,7 @@
 							</div>
 							<div class="row row-inner small-margin">
 						{% endif %}
-						<div class="col-sm-4">
+						<div class="col-xs-4">
 							<a href="{{ image.file_path }}" data-fancybox="gallery"><img src="{{ image.file_path }}" class="img-thumbnail img-responsive" /></a>
 						</div>
 						{% if forloop.last %}
@@ -186,7 +236,7 @@
 						{% endif %}
 					{% empty %}
 						<div class="col-xs-12">
-							<div class="alert alert-danger">
+							<div class="alert alert-warning">
 								<div class="media">
 									<div class="media-left media-middle">
 										<i class="fas fa-frown fa-fw fa-3x"></i>
@@ -194,7 +244,7 @@
 									<div class="media-body">
 										<h4 class="media-heading">No Images</h4>
 										<p>
-											You have not uploaded any images related to this quote yet. You can easily upload some by dragging and dropping any image file into the box below.
+											You have not uploaded any images related to this quote yet. While not essential in processing your quote, any images you can provide of the boat and its location can help us greatly in organising transportation and disposal.
 										</p>
 									</div>
 								</div>
@@ -203,6 +253,18 @@
 					{% endfor %}
 					{% if not quote.is_declined and not quote.is_paid %}
 						<div class="col-xs-12 spacer-50-top">
+							<div class="alert alert-info text-center">
+								<p>
+									The following file formats are accepted:
+								</p>
+								<ul class="list-inline">
+									<li>.jpg</li>
+									<li>.gif</li>
+									<li>.png</li>
+									<li>.bmp</li>
+									<li>.jpeg</li>
+								</ul>
+							</div>
 							<div id="file-uploader">       
 								<noscript>
 									<p>Please enable JavaScript to use file uploader.</p>
@@ -213,9 +275,9 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row spacer-50-top">
 				<div class="col-xs-12">
-					<a href="{% url 'my_account' %}" class="btn btn-primary">Back to My Account</a>
+					<a href="{% url 'my_account' %}" class="btn btn-default"><i class="fas fa-arrow-alt-circle-left fa-fw"></i> Back to My Account</a>
 				</div>
 			</div>
 		</div>
@@ -243,8 +305,8 @@
 				},
 				onAllComplete: function(uploads) {
 					// uploads is an array of maps
-					// the maps look like this: {file: FileObject, response: JSONServerResponse}
-					// alert("All complete!");
+					// reload the page.
+					location.reload();
 				},
 				params: {
 					'csrf_token': '{{ csrf_token }}',
@@ -280,5 +342,11 @@
 				dialogClass: "modal-dialog"
 			});
 		{% endif %}
+
+		$(function() {
+			var messageDiv = $('.message-block');
+			var height = messageDiv[0].scrollHeight;
+			messageDiv.scrollTop(height);
+		});
 	</script>
 {% endblock %}

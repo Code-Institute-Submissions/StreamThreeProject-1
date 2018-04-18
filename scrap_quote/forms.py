@@ -1,8 +1,9 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Quote, QuoteImages, QuoteLog, QuoteLogStatus
 import math
+
+from .models import Quote, QuoteImages, QuoteLog, QuoteLogStatus, QuoteMessages
 
 
 # form to create/edit scrap quotations
@@ -123,3 +124,17 @@ class ActivityLogForm(forms.ModelForm):
 		fields = ['status', 'comment']
 		exclude = ['quote', 'user', 'ip_address']
 
+
+# form to add or reply to a message
+class QuoteMessageForm(forms.ModelForm):
+
+	# add 'form-control' class to all fields on the form.
+	def __init__(self, *args, **kwargs):
+		super(forms.ModelForm, self).__init__(*args, **kwargs)
+		for field_name, field in self.fields.items():
+			field.widget.attrs['class'] = 'form-control'
+
+	class Meta:
+		model = QuoteMessages
+		fields = ['message']
+		exclude = ['user', 'quote', 'is_read', 'read_by', 'date_read']

@@ -292,6 +292,23 @@ class QuoteLog(models.Model):
 		return self.status.status
 
 
+# Model to hold quote messages.
+class QuoteMessages(models.Model):
+
+	# fields
+	created_at = models.DateTimeField(auto_now_add=True)
+	quote = models.ForeignKey(Quote, related_name='quote_messages')
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, related_name='quote_messages')
+	message = HTMLField()
+	is_read = models.BooleanField(default=False)
+	read_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, limit_choices_to={ 'is_staff' : True })
+	date_read = models.DateTimeField(blank=True, null=True)
+
+	# return the message
+	def __unicode__(self):
+		return self.message
+
+
 # save image details to database after it's been uploaded
 @receiver(file_uploaded, sender=AjaxFileUploader)
 def create_on_upload(sender, backend, request, **kwargs):

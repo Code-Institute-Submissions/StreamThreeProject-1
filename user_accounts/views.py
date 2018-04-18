@@ -12,7 +12,7 @@ import arrow
 
 from .forms import UserRegistrationForm, UserLoginForm
 from .models import User
-from scrap_quote.models import Quote
+from scrap_quote.models import Quote, QuoteMessages
 
 # create the user registration view
 def register(request):
@@ -92,7 +92,7 @@ def login(request):
 			else:
 				
 				# display error message
-				form.add_error(None, "Your email or password was not recognised")
+				messages.error(request, "Your email or password was not recognised")
  
 	else:
 		form = UserLoginForm()
@@ -126,13 +126,16 @@ def my_account(request):
 	# get scrap quotes for the user.
 	if request.user.is_staff:
 		quotes = Quote.objects.filter(created_at__gte=arrow.now().replace(weeks=-1).datetime).order_by('-created_at')
+		quoteMessages = QuoteMessages.objects.filter(is_read=False).filter(user__is_staff=False).order_by('-created_at')
 	else:
 		quotes = Quote.objects.filter(user=request.user).order_by('-created_at')
+		quoteMessages = QuoteMessages.objects.filter(is_read=False).filter(user__is_staff=True).order_by('-created_at')
 
 	# page arguments.
 	args = {
 		'pageTitle': 'My Account',
-		'quotes': quotes
+		'quotes': quotes,
+		'quoteMessages': quoteMessages
 	}
 
 	return render(request, 'user_accounts/my_account.html', args)
