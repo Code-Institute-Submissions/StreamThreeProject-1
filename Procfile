@@ -1,0 +1,1 @@
+web: gunicorn ScrapQuotation.wsgi.application
