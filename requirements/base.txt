@@ -9,3 +9,4 @@ python-dateutil==2.7.2
 six==1.11.0
 wheel==0.30.0
 gunicorn==19.4
+whitenoise==3.2
