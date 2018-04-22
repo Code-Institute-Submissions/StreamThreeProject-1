@@ -13,18 +13,28 @@
 		<div class="container">
 			<!-- Reference, Status and Options -->
 			<div class="row">
-				<div class="col-xs-12 col-sm-4">
+				<div class="col-xs-12 col-sm-4" id="ref-block">
 					<div class="page-header small-margin-both">
-						<h4>Ref</h4>
+						<h4>
+							Ref
+							<a href="javascript:void(0);" onclick="beginSiteHelp(4);" title="Click for Help" class="pull-right">
+								<i class="fas fa-question-circle fa-fw"></i>
+							</a>
+						</h4>
 					</div>
 					<p><b>Quote Number:</b> BB-SCRAP-{{ quote.pk | stringformat:"05d" }}</p>
 					{% if user.is_staff %}<p><b>Customer:</b> {{ quote.user }}</p>{% endif %}
 					<p><b>Date:</b> {{ quote.created_at | date:"d/m/Y"}}</p>
 					<p><b>Latest Activity:</b> {{ statusUpdate }} <a href="{% url 'activity_log' quote.pk %}"><i class="fas fa-history"></i> View Log</a></p>
 				</div>
-				<div class="col-xs-12 col-sm-4 col-sm-offset-4">
-					<div class="page-header small-margin-both text-right">
-						<h4>Options</h4>
+				<div class="col-xs-12 col-sm-4 col-sm-offset-4" id="options-block">
+					<div class="page-header small-margin-both">
+						<h4>
+							Options
+							<a href="javascript:void(0);" onclick="beginSiteHelp(5);" title="Click for Help" class="pull-right">
+								<i class="fas fa-question-circle fa-fw"></i>
+							</a>
+						</h4>
 					</div>
 					{% if not quote.is_paid and not quote.is_declined %}
 						<p><a href="{% url 'edit_quote' quote.id %}" class="btn btn-primary btn-block"><i class="fas fa-edit fa-fw"></i> Edit This Quote</a></p>
@@ -45,11 +55,16 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="page-header small-margin">
-						<h4>Quote</h4>
+						<h4>
+							Quote
+							<a href="javascript:void(0);" onclick="beginSiteHelp(6);" title="Click for Help" class="pull-right">
+								<i class="fas fa-question-circle fa-fw"></i>
+							</a>
+						</h4>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" id="quote-block">
 				<div class="col-xs-12 col-sm-5 col-sm-offset-1">
 					<div class="panel {% if quote.payment_type == 'a' and quote.is_paid %} panel-success {% else %} panel-default {% endif %}">
 						<div class="panel-heading">
@@ -109,10 +124,15 @@
 			</div>
 
 			<!-- Quote Summary -->
-			<div class="row">
+			<div class="row" id="summary-block">
 				<div class="col-xs-12">
 					<div class="page-header small-margin">
-						<a role="button" data-toggle="collapse" href="#quoteSummary" aria-expanded="false" aria-controls="quoteSummary"><h4>Summary <small>Click to show</small></h4></a>
+						<h4>
+							Summary <a role="button" data-toggle="collapse" href="#quoteSummary" aria-expanded="false" aria-controls="quoteSummary"><small>Click to show</small></a>
+							<a href="javascript:void(0);" onclick="beginSiteHelp(7);" title="Click for Help" class="pull-right">
+								<i class="fas fa-question-circle fa-fw"></i>
+							</a>
+						</h4>
 					</div>
 				</div>
 			</div>
@@ -160,9 +180,14 @@
 			<!-- Messages and Images -->
 			<div class="row">
 				<!-- Messages -->
-				<div class="col-sm-6">
+				<div class="col-sm-6" id="messages-block">
 					<div class="page-header small-margin">
-						<h4>Messages</h4>
+						<h4>
+							Messages
+							<a href="javascript:void(0);" onclick="beginSiteHelp(8);" title="Click for Help" class="pull-right">
+								<i class="fas fa-question-circle fa-fw"></i>
+							</a>
+						</h4>
 					</div>
 					<div class="message-block">
 						{% for message in quoteMessages %}
@@ -210,15 +235,22 @@
 							</div>
 						{% endfor %}
 					</div>
-					<a href="{% url 'add_message' quote.id %}" class="btn btn-primary btn-sm">
-						<i class="fas fa-plus fa-fw"></i> New Message
-					</a>
+					{% if not quote.is_declined %}
+						<a href="{% url 'add_message' quote.id %}" class="btn btn-primary btn-sm">
+							<i class="fas fa-plus fa-fw"></i> New Message
+						</a>
+					{% endif %}
 				</div>
 
 				<!-- Images -->
-				<div class="col-sm-6">
+				<div class="col-sm-6" id="images-block">
 					<div class="page-header small-margin">
-						<h4>Images</h4>
+						<h4>
+							Images
+							<a href="javascript:void(0);" onclick="beginSiteHelp(9);" title="Click for Help" class="pull-right">
+								<i class="fas fa-question-circle fa-fw"></i>
+							</a>
+						</h4>
 					</div>
 					{% for image in images %}
 						{% if forloop.first %}
@@ -343,6 +375,7 @@
 			});
 		{% endif %}
 
+		// automatically scroll to the bottom of the message block to show latest messages.
 		$(function() {
 			var messageDiv = $('.message-block');
 			var height = messageDiv[0].scrollHeight;

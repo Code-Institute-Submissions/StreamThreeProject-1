@@ -13,10 +13,14 @@
 	<section>
 		<div class="container">
 			<div class="row col-xs-12">
-				<form role="form" method="post" class="form-horizontal">
+				<form role="form" method="post" class="form-horizontal" id="quotation_form">
 					{% csrf_token %}
 					{% include "scrap_quote/forms/scrap_quote.html" %}
-					<input type="submit" value="Submit" class="btn btn-primary pull-right">
+					<div class="form-group">
+						<div class="col-xs-12">
+							<input type="submit" value="Submit" class="btn btn-primary pull-right" id="submit-form">
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -27,6 +31,8 @@
 {% block footer_js %}
 	<script src="{% static 'lib/js/postcodes.min.js' %}"></script>
 	<script src="{% static 'lib/js/ideal-postcodes-autocomplete.min.js' %}"></script>
+	<script src="{% static 'lib/js/jquery.validate.min.js' %}"></script>
+	<script src="{% static 'lib/js/additional-methods.min.js' %}"></script>
 	<script>
 		var controller = new IdealPostcodes.Autocomplete.Controller({
 			api_key: "iddqd",
@@ -37,6 +43,12 @@
 		});
 
 		($(document).ready(function() {
+
+			// remove the form-control class from the checkbox and add a required status to it.
+			$('input:checkbox').removeClass('form-control');
+			$('#id_my_consent').prop('required', true);
+
+
 			// get objects to show/hide.
 			var _engine = $('#{{ form.engine.id_for_label }}');
 			var _make = $('#{{ form.engine_make.id_for_label }}').parent().parent();
@@ -65,8 +77,74 @@
 			_engine.change(engine_change);
 			engine_change();
 
-			$('input:checkbox').removeClass('form-control');
-			$('#id_my_consent').prop('required', true);
+			// validate the form
+			$('#quotation_form').validate({
+				rules: {
+					type_of_boat: "required",
+					keel_type: "required",
+					boat_length: {
+						required: true,
+						range: [1, 200]
+					},
+					boat_weight: {
+						required: true,
+						range: [1, 1000]
+					},
+					hull_material: "required",
+					hazardous_mats: {
+						required: true,
+						minlength: 1
+					},
+					engine: "required",
+					engine_cylinders: {
+						number: true
+					},
+					engine_hours: {
+						number: true
+					},
+					boat_location: {
+						required: true,
+						postcodeUK: true
+					},
+					scrap_at_location: "required",
+					boat_in_water: "required",
+					has_trailer: "required",
+					my_consent: "required"
+				},
+				messages: {
+					type_of_boat: "Please select the type of boat from the list.",
+					keel_type: "Please select the keel type from the list.",
+					boat_length: {
+						required: "Please enter the length of the boat.",
+						range: "Please enter a number between 1 and 200."
+					},
+					boat_weight: {
+						required: "Please enter the weight of the boat.",
+						range: "Please enter a number between 1 and 1000."
+					},
+					hull_material: "Please select the Hull Material from the list.",
+					hazardous_mats: {
+						required: "Please select what hazardous materials are left on the boat.",
+						minlength: "You must select at least one hazardous material from the list."
+					},
+					engine: "Please select the engine type from the list.",
+					engine_cylinders: {
+						number: "Please enter numbers only."
+					},
+					engine_hours: {
+						number: "Please enter numbers only."
+					},
+					boat_location: {
+						required: "Please enter the boats location postcode.",
+						postcodeUK: "Please enter a valid UK Postcode."
+					},
+					scrap_at_location: "Please select an option from the list.",
+					boat_in_water: "Please select an option from the list.",
+					has_trailer: "Please select an option from the list.",
+					my_consent: "Please check the box to confirm."
+				},
+				errorClass: "form-error"
+			});
 		}));
 	</script>
 {% endblock %}

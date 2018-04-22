@@ -9,13 +9,27 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 	<link href="{% static 'lib/css/bootstrap.css' %}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.css" />
 	{% block header_code %}
 	{% endblock %}
 	<link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="row header-logo">
+				<div class="col-xs-8 col-sm-4 col-xs-offset-2 col-sm-offset-0">
+					<a href="{% url 'home' %}"><img src="{% static 'images/boat-breakers-logo.png' %}" class="img-responsive" alt="Boatbreakers - Buy, Sell, Scrap, Recycle all kinds of boats" id="logo" /></a>
+					<div class="text-center">
+						<small>Buy, Sell, Scrap, Recycle all kinds of boats</small>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-sm-offset-2 text-right hidden-xs">
+					<h2 id="telephone"><small>Call Us</small><br /><i class="fas fa-phone fa-fw"></i> <a href="tel:02392984666">023 9298 4666</a></h2>
+				</div>
+			</div>
+		</div>
+		<nav class="navbar navbar-default {% if homePage %} home-nav {% endif %}" id="site-nav">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation" aria-expanded="false">
@@ -28,51 +42,124 @@
 
 				<div class="collapse navbar-collapse" id="navigation">
 					<ul class="nav navbar-nav">
-						<li><a href="{% url 'home' %}"><span class="fas fa-home fa-fw"></span> Home</a></li>
-						<li><a href="{% url 'new_quote' %}">New Scrap Enquiry</a></li>
-						<li><a href="#"></a></li>
-						<li><a href="#"></a></li>
-						<li><a href="#"></a></li>
+						<li><a href="{% url 'home' %}"><i class="fas fa-home fa-fw"></i> Home</a></li>
+						{% if user.is_authenticated %}
+							<li><a href="{% url 'my_account' %}"><i class="fas fa-briefcase fa-fw"></i> My Account</a></li>
+							<li><a href="{% url 'new_quote' %}"><i class="fas fa-recycle fa-fw"></i> New Scrap Enquiry</a></li>
+						{% endif %}
 					</ul>
-					{% if user.is_authenticated %}
-						{% include 'menus/authenticated.html' %}
-					{% else %}
-						{% include 'menus/not_authenticated.html' %}
-					{% endif %}
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="javascript:void(0);" onclick="beginSiteHelp(0);"><i class="fas fa-question-circle fa-fw"></i> Help</a>
+						</li>
+						{% if user.is_authenticated %}
+							{% include 'menus/authenticated.html' %}
+						{% else %}
+							{% include 'menus/not_authenticated.html' %}
+						{% endif %}
+					</ul>
 				</div>
 			</div>
 		</nav>
-
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="page-header">
-						<h1>{{ pageTitle }}</h1>
+		
+		{% if not homePage %}
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="page-header">
+							<h1>{{ pageTitle }}</h1>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		{% endif %}
 	</header>
 	<main>
+		{% if messages %}
+			<section class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						{% for message in messages %}
+							<div class="alert alert-{{message.tags }} alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								{{ message }}
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
 		{% block main_content %}
 		{% endblock %}
 	</main>
 	<footer>
 		<div class="container-fluid footer-top">
-			<div class="row col-xs-12">
-				<div class="container">
-					<div class="col-md-3"></div>
-					<div class="col-md-3"></div>
-					<div class="col-md-3"></div>
-					<div class="col-md-3"></div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="container">
+						<div class="row row-inner">
+							<div class="col-xs-12 col-md-3">
+								<div class="page-header">
+									<h4>Follow Us</h4>
+								</div>
+								<p>
+									Join us on social media for all the latest updates and offers.
+								</p>
+								<ul class="social-media">
+									<li>
+										<a href="https://www.facebook.com/Boatbreakers/" class="facebook" title="Follow Us on Facebook" target="_blank">
+											<i class="fab fa-facebook-f fa-fw"></i>
+										</a>
+									</li>
+									<li>
+										<a href="https://twitter.com/boatbreakers" class="twitter" title="Follow Us on Twitter" target="_blank"><i class="fab fa-twitter fa-fw"></i>
+										</a>
+									</li>
+									<li>
+										<a href="#" class="linkedin" title="Follow Us on LinkedIn" target="_blank">
+											<i class="fab fa-linkedin-in fa-fw"></i>
+										</a>
+									</li>
+									<li>
+										<a href="https://www.instagram.com/boatbreakers/" class="instagram" title="Follow Us on Instragram" target="_blank">
+											<i class="fab fa-instagram fa-fw"></i>
+										</a>
+									</li>
+									<li>
+										<a href="https://www.youtube.com/channel/UC8yKAALwvcxp50cBYUnX57Q" class="youtube" title="Follow Us on YouTube" target="_blank">
+											<i class="fab fa-youtube fa-fw"></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-xs-12 col-md-3"></div>
+							<div class="col-xs-12 col-md-3"></div>
+							<div class="col-xs-12 col-md-3">
+								<div class="page-header">
+									<h4>Contact Us</h4>
+								</div>
+								<p>
+									Need to contact us about your quote or any other enquiry? Give us a call and we'll be happy to help.
+								</p>
+								<h3><i class="fas fa-phone fa-fw"></i> <a href="tel:02392984666">023 9298 4666</a></h3>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="container-fluid site-info">
-			<div class="row col-xs-12">
-				<div class="container">
-					<div class="row col-xs-12">
-						&copy; Boatbreakers 1996 - 2018 
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="container">
+						<div class="row row-inner">
+							<div class="col-xs-12">
+								&copy; Boatbreakers 1996 - 2018 
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -81,8 +168,10 @@
 	
 
 	<!-- Bootstrap JavaScript -->
-    <script   src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="{% static 'lib/js/bootstrap.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.js"></script>
+    <script src="{% static 'js/guides/site.js' %}"></script>
     
     <!-- Additional JS, if any -->
 	{% block footer_js %}

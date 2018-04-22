@@ -5,50 +5,63 @@
 	<section>
 		<div class="container">
 			{% if user.is_staff %}
-
+				<p>
+					Welcome, {{ user.first_name }} to your Admin Dashboard. Below you will find a list of quotes (if any) that currently have messages that need answering. Below that, you will find a list of quotes from the last 7 days as well as a quick search field, which allows you to enter the id of a quote to view it.
+				</p>
 			{% else %}
 				<p>
 					Welcome, {{ user.first_name }} to your account dashboard. From here you can view all the quotes you have submitted to us and track what is happening to each quote.
 				</p>
 			{% endif %}
 
-			{% if quoteMessages.exists %}
 			<div class="page-header small-margin">
-				{% if user.is_staff %}
-					<h4>Messages Awaiting Review</h4>
-				{% endif %}
+				<h4>
+					Messages Awaiting Review
+					<a href="javascript:void(0);" onclick="beginSiteHelp(4);" title="Click for Help" class="pull-right">
+						<i class="fas fa-question-circle fa-fw"></i>
+					</a>
+				</h4>
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover">
-							<tr>
-								<th>ID</th>
-								<th>Date</th>
-								<th>Quote Type</th>
-								<th>Posted By</th>
-							</tr>
 							{% for message in quoteMessages %}
+								{% if forloop.first %}
+									<tr>
+										<th>ID</th>
+										<th>Date</th>
+										<th>Quote Type</th>
+										<th>Posted By</th>
+									</tr>
+								{% endif %}
 								<tr onclick="location.href='{% url 'view_quote' message.quote.id %}'">
 									<td><a href="{% url 'view_quote' message.quote.id %}">{{ message.quote.pk | stringformat:"05d" }}</a></td>
 									<td>{{ message.created_at | date:"d/m/Y" }}</td>
 									<td><a href="{% url 'view_quote' message.quote.id %}">{{ message.quote }}</a></td>
 									<td>{{ message.user }}</td>
 								</tr>
+							{% empty %}
+								<tr>
+									<td colspan="4" class="text-center">No Messages awaiting your review.</td>
+								</tr>
 							{% endfor %}
 						</table>
 					</div>
 				</div>
 			</div>
-			{% endif %}
 
-			<a href="{% url 'new_quote' %}" class="btn btn-primary pull-right"><i class="fas fa-plus fa-fw"></i> New Quotation</a>
 			<div class="page-header small-margin">
-				{% if user.is_staff %}
-					<h4>Last 7 Days of Quotes</h4>
-				{% else %}
-					<h4>Your Quotes</h4>
-				{% endif %}
+				<h4>
+					{% if user.is_staff %}
+						Last 7 Days of Quotes
+					{% else %}
+						Your Quotes
+					{% endif %}
+					<a href="javascript:void(0);" onclick="beginSiteHelp(4);" title="Click for Help" class="pull-right">
+						<i class="fas fa-question-circle fa-fw"></i>
+					</a>
+				</h4>
 			</div>
 			<div class="row">
 				{% if user.is_staff %}
@@ -67,17 +80,19 @@
 				<div class="col-xs-12">
 					<div class="table-responsive">
 						<table class="table table-striped table-hover">
-							<tr>
-								<th>ID</th>
-								<th>Date</th>
-								<th>Quote Type</th>
-								<th>Posted By</th>
-								<th class="text-center">Price<br /><small>All Inclusive / Scrap Only</small></th>
-								<th class="text-center">Approved?</th>
-								<th class="text-center">Declined?</th>
-								<th class="text-center">Paid?</th>
-							</tr>
 							{% for quote in quotes %}
+								{% if forloop.first %}
+									<tr>
+										<th>ID</th>
+										<th>Date</th>
+										<th>Quote Type</th>
+										<th>Posted By</th>
+										<th class="text-center">Price<br /><small>All Inclusive / Scrap Only</small></th>
+										<th class="text-center">Approved?</th>
+										<th class="text-center">Declined?</th>
+										<th class="text-center">Paid?</th>
+									</tr>
+								{% endif %}
 								<tr onclick="location.href='{% url 'view_quote' quote.id %}'">
 									<td><a href="{% url 'view_quote' quote.id %}">{{ quote.pk | stringformat:"05d" }}</a></td>
 									<td>{{ quote.created_at | date:"d/m/Y" }}</td>
@@ -106,9 +121,20 @@
 										{% endif %}
 									</td>
 								</tr>
+							{% empty %}
+								{% if user.is_staff %}
+									<tr>
+										<td class="text-center">No Quotes submitted in the Last 7 Days. Use the search box above.</td>
+									</tr>
+								{% else %}
+									<tr>
+										<td class="text-center">You haven't submitted any quotes yet.</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</table>
 					</div>
+					<a href="{% url 'new_quote' %}" class="btn btn-primary pull-right"><i class="fas fa-plus fa-fw"></i> New Quotation</a>
 				</div>
 			</div>
 		</div>

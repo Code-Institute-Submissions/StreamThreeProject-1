@@ -1,5 +1,25 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-	<h1>This quote does not belong to you</h1>
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					{% if not user.is_staff %}
+						<h1>This quote does not belong to you</h1>
+						<p>
+							You are currently trying to view a quote that does not belong to you. You are seeing this error either due to an error, in which case you can e-mail us at <a href="mailto:scrap-help@boatbreakers.com">scrap-help@boatbreakers.com</a> and quote the reference number: <b>{{ quote_id | stringformat:"05d" }}</b> and we will look into the problem for you.
+						</p>
+					{% else %}
+						<h1>This action is not allowed</h1>
+						<p>
+							You are seeing this error because you tried to preform an action the system does not allow.
+						</p>
+					{% endif %}
+					<a href="{% url 'my_account' %}" class="btn btn-primary btn-lg">Back to My Account</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	
 {% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+	<section>
+		<div class="container-fluid home-fluid">
+			<div class="row" id="home-header-row">
+				<div class="col-xs-12">
+					<div class="home-header">
+						<div class="container">
+							<div class="col-xs-12 col-md-6 col-xs-offset-0 col-md-offset-6 text-box">
+								<div class="page-header">
+									<h1>Welcome to Boatbreakers</h1>
+								</div>
+								<p>
+									Our team at Boatbreakers is the market leader at breaking and scrapping boats.
+								</p>
+								<p>
+									If your boat has fallen into dis-repair and is now a costly liability at a marina or on a driveway, we can help.
+								</p>
+								<p>
+									Our scrap a boat disposal service provides a professional disposal that can save you money and give you peace of mind. We can dispose of your boat in an environmentally friendly way and reuse as many of the components as possible.
+								</p>
+								<p>
+									{% if user.is_authenticated %}
+										<a href="{% url 'new_quote' %}" class="btn btn-primary btn-lg pull-right">Start a new Scrap Quotation</a>
+									{% else %}
+										<a href="{% url 'register' %}" class="btn btn-primary btn-lg pull-right">Register</a>
+									{% endif %}
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

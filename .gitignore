@@ -1,3 +1,4 @@
 *.DS_Store
 *.pyc
 user_uploads/
+db.sqlite3

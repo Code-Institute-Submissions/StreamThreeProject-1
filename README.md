@@ -11,7 +11,6 @@ The goal of this project is to re-develop the existing system. The information t
 * User Management
 	* Allow Users to Register to the website
 	* Allow Users to Login and Logout of the website
-	* Allows Users to edit their personal information
 * Quote System
 	* End Users:
 		* Allow users to generate a quote to scrap their boat
@@ -43,6 +42,7 @@ The goal of this project is to re-develop the existing system. The information t
 		* [FileUploader](https://github.com/skoczen/django-ajax-uploader) - Used to add AJAX image uploading.
 		* [TinyMCE](https://www.tinymce.com/download/) - Used to add Rich Text editor capabilities to text fields.
 		* [jquery.confirm](https://myclabs.github.io/jquery.confirm/) - Adds confirmation popups to buttons before trigging the link
+		* [jQuery Validation Plugin](https://jqueryvalidation.org) - Add Form validation to forms.
 * Python
 	* [Django 1.11.11](https://www.djangoproject.com)
 	* [Google Maps 2.5.1](https://github.com/googlemaps/google-maps-services-python) - Used to preform distance calculations between two postcodes as part of the scrap quotation.
@@ -53,3 +53,5 @@ The goal of this project is to re-develop the existing system. The information t
 ## Testing
 
 ## Deployment 
+
+The project has been deloyed to Heroku at the following address: [https://boiling-spire-29247.herokuapp.com](https://boiling-spire-29247.herokuapp.com)

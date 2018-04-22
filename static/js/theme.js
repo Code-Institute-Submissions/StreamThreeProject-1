@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	// append toTop div to the bottom of the body tag.
-    $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span></div>');
+    $('body').append('<div id="toTop" class="btn btn-info"><i class="fas fa-arrow-up"></i></div>');
 	
 	// function to show the button based on page position.
 	$(window).scroll(function () {

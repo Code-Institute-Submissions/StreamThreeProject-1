@@ -243,7 +243,7 @@ def view_quotation(request, quote_id):
 	else:
 
 		# display error message.
-		return render(request, 'scrap_quote/not_your_quote.html')
+		return render(request, 'scrap_quote/not_your_quote.html', { 'quote_id': quote_id })
 
 
 # edit the quotation.
@@ -315,7 +315,7 @@ def edit_quotation(request, quote_id):
 	else:
 
 		# display error message.
-		return render(request, 'scrap_quote/not_your_quote.html')
+		return render(request, 'scrap_quote/not_your_quote.html', { 'quote_id': quote_id })
 
 
 # View to handle Staff Members approving a quote.
@@ -398,7 +398,7 @@ def quote_activity_log(request, quote_id):
 	else:
 
 		# display error message.
-		return render(request, 'scrap_quote/not_your_quote.html')
+		return render(request, 'scrap_quote/not_your_quote.html', { 'quote_id': quote_id })
 
 
 # view to handle paying for a quote.
@@ -509,7 +509,7 @@ def pay_quotation(request, quote_id, payment_type):
 	else:
 
 		# display error message.
-		return render(request, 'scrap_quote/not_your_quote.html')
+		return render(request, 'scrap_quote/not_your_quote.html', { 'quote_id': quote_id })
 
 
 # view to add a new activity to a quote.
@@ -621,4 +621,4 @@ def add_new_message(request, quote_id):
 	else:
 
 		# display error message.
-		return render(request, 'scrap_quote/not_your_quote.html')
+		return render(request, 'scrap_quote/not_your_quote.html', { 'quote_id': quote_id })

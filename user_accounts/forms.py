@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
 
 from .models import User
@@ -86,4 +86,3 @@ class UserLoginForm(forms.Form):
 
 	class Meta:
 		fields = ['email', 'password']
-

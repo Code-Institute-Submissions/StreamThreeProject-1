@@ -7,5 +7,6 @@ from django.shortcuts import render
 def get_home_page(request):
 	args = {
 		'pageTitle' : 'Welcome to Boatbreakers',
+		'homePage' : True
 	}
-	return render(request, 'index.html', args)
+	return render(request, 'pages/index.html', args)
