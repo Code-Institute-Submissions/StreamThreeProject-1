@@ -52,6 +52,33 @@ The goal of this project is to re-develop the existing system. The information t
 
 ## Testing
 
+The website has been tested repeatedly during development on both desktop and mobile devices as well as using the "Responsive Mode" of Safari to test different screen resolutions and browser types to ensure the site looks the same and is as responsive as possible.
+
+Test Users were created to test the user and staff features and to submit some test quotes, the users logins are as follows:
+
+* __Staff Logins__
+	* __Staff Member 1__
+		* Username: staff.user@scrapsystem.com
+		* Password: LetmeinNow!
+	* __Staff Member 2__
+		* Username: staff.member@scrapsystem.com
+		* Password: !LetmeinNow!
+
+* __User Logins__
+	* __User 1__
+		* Username: john.smith@scrapsystem.com
+		* Password: TestUserLogin!
+	* __User 2__
+		* Username: jane.smith@scrapsystem.com
+		* Password: TestUserLogin!
+	* __User 3__
+		* Username: joe.bloggs@scrapsystem.com
+		* Password: TestUserLogin!
+	* __User 4__
+		* Username: jane.doe@scrapsystem.com
+		* Password: TestUserLogin!
+
+
 ## Deployment 
 
 The project has been deloyed to Heroku at the following address: [https://boiling-spire-29247.herokuapp.com](https://boiling-spire-29247.herokuapp.com)
