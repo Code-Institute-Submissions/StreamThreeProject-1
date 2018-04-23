@@ -68,6 +68,21 @@ a[href^="tel"] {
 	overflow: hidden;
 	color: #535353;
 }
+@media screen and (max-width: 767px) {
+	.navbar-default .navbar-nav > li > a {
+		display: block;
+	}
+}
+@media screen and (min-width: 768px) {
+	.navbar-default .navbar-nav > li > a {
+		padding: 15px 5px;
+	}
+}
+@media screen and (min-width: 992px) {
+	.navbar-default .navbar-nav > li > a {
+		padding: 15px 15px;
+	}
+}
 
 /* Grid */
 .row-inner {
@@ -190,6 +205,9 @@ footer {
 /* Spacers */
 .spacer-50-top {
 	margin-top: 50px;
+}
+.spacer-50-bottom {
+	margin-bottom: 50px;
 }
 .small-margin {
 	margin-bottom: 20px;
@@ -337,6 +355,7 @@ a.facebook:hover, a.twitter:hover, a.linkedin:hover, a.youtube:hover, a.instagra
 	padding: 20px;
 	font-weight: 300;
 	font-size: 18px;
+	border-radius: 5px;
 }
 .home-header p {
 	margin-bottom: 15px;
@@ -352,4 +371,65 @@ a.facebook:hover, a.twitter:hover, a.linkedin:hover, a.youtube:hover, a.instagra
 	color: #a94442;
 	background-color: #f2dede;
 	border-color: #ebccd1;
+}
+
+/* Icons */
+@-webkit-keyframes pulse {
+	25% {
+		-webkit-transform: scale(1.3);
+		transform: scale(1.3);
+	}
+	75% {
+		-webkit-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+}
+@keyframes pulse {
+	25% {
+		-webkit-transform: scale(1.3);
+		transform: scale(1.3);
+	}
+	75% {
+		-webkit-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+}
+.icon {
+	margin: 20px 20px 0;
+	text-align: center;
+	font-size: 120px;
+}
+.icon i {
+	transition: 0.3s all ease-out;
+}
+.icon-green {
+	color: #6bb508;
+}
+.icon-blue {
+	color: #086bb5;
+}
+.contact-icon {
+	padding-right: 30px;
+}
+
+/* Thumbnail Hover */
+.thumbnail {
+	transition: 0.3s all ease-out;
+}
+
+.thumbnail:hover {
+	background-color: #f6f6f6;
+	-webkit-box-shadow: 0 0 5px #525252;
+	-moz-box-shadow: 0 0 5px #525252;
+	box-shadow: 0 0 5px #525252;
+}
+.thumbnail:hover .icon i {
+	-webkit-animation-name: pulse;
+	animation-name: pulse;
+	-webkit-animation-duraction: 1s;
+	animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
 }
