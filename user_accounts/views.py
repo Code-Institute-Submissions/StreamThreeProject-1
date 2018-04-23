@@ -129,7 +129,7 @@ def my_account(request):
 		quoteMessages = QuoteMessages.objects.filter(is_read=False).filter(user__is_staff=False).order_by('-created_at')
 	else:
 		quotes = Quote.objects.filter(user=request.user).order_by('-created_at')
-		quoteMessages = QuoteMessages.objects.filter(is_read=False).filter(user__is_staff=True).order_by('-created_at')
+		quoteMessages = QuoteMessages.objects.filter(is_read=False).filter(user__is_staff=True).filter(quote__user=request.user).order_by('-created_at')
 
 	# page arguments.
 	args = {
