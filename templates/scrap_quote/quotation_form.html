@@ -12,16 +12,18 @@
 {% block main_content %}
 	<section>
 		<div class="container">
-			<div class="row col-xs-12">
-				<form role="form" method="post" class="form-horizontal" id="quotation_form">
-					{% csrf_token %}
-					{% include "scrap_quote/forms/scrap_quote.html" %}
-					<div class="form-group">
-						<div class="col-xs-12">
-							<input type="submit" value="Submit" class="btn btn-primary pull-right" id="submit-form">
+			<div class="row">
+				<div class="col-xs-12">
+					<form role="form" method="post" class="form-horizontal" id="quotation_form">
+						{% csrf_token %}
+						{% include "scrap_quote/forms/scrap_quote.html" %}
+						<div class="form-group">
+							<div class="col-xs-12">
+								<input type="submit" value="Submit" class="btn btn-primary pull-right" id="submit-form">
+							</div>
 						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 	</section>

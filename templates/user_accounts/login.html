@@ -2,56 +2,61 @@
 {% load staticfiles %}
 
 {% block main_content %}
-	<form role="form" method="post" action="{% url 'login' %}" id="login_form">
-		{% csrf_token %}
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Login</h3>
-					</div>
-					<div class="panel-body">
-						<div class="form-group" id="username-block">
-							<label for="{{ form.email.id_for_label }}" class="control-label">Username/E-Mail Address</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fas fa-user fa-fw"></i></span>
-								{{ form.email }}
-								<span class="input-group-addon">
-									<a href="javascript:void(0);" onclick="beginSiteHelp(4);" title="Click for Help">
-										<i class="fas fa-question-circle fa-fw"></i>
-									</a>
-								</span>
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
+					<form role="form" method="post" action="{% url 'login' %}" id="login_form">
+					{% csrf_token %}
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Login</h3>
+							</div>
+							<div class="panel-body">
+								<div class="form-group" id="username-block">
+									<label for="{{ form.email.id_for_label }}" class="control-label">Username/E-Mail Address</label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-user fa-fw"></i></span>
+										{{ form.email }}
+										<span class="input-group-addon">
+											<a href="javascript:void(0);" onclick="beginSiteHelp(4);" title="Click for Help">
+												<i class="fas fa-question-circle fa-fw"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="form-group" id="password-block">
+									<label for="{{ form.password.id_for_label" class="control-label">Password</label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-key fa-fw"></i></span>
+										{{ form.password }}
+										<span class="input-group-addon">
+											<a href="javascript:void(0);" onclick="beginSiteHelp(5);" title="Click for Help">
+												<i class="fas fa-question-circle fa-fw"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div id="form-errors">
+									<ul>
+										
+									</ul>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary pull-right" id="submit-block">
+										<i class="fas fa-sign-in-alt fa-fw"></i> Login</button>
+								</div>
 							</div>
 						</div>
-						<div class="form-group" id="password-block">
-							<label for="{{ form.password.id_for_label" class="control-label">Password</label>
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fas fa-key fa-fw"></i></span>
-								{{ form.password }}
-								<span class="input-group-addon">
-									<a href="javascript:void(0);" onclick="beginSiteHelp(5);" title="Click for Help">
-										<i class="fas fa-question-circle fa-fw"></i>
-									</a>
-								</span>
-							</div>
-						</div>
-						<div id="form-errors">
-							<ul>
-								
-							</ul>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary pull-right" id="submit-block">
-								<i class="fas fa-sign-in-alt fa-fw"></i> Login</button>
-						</div>
-					</div>
+						<p id="not-registered">
+							Not registered yet? <a href="{% url 'register' %}">click here</a>
+						</p>
+					</form>
 				</div>
-				<p id="not-registered">
-					Not registered yet? <a href="{% url 'register' %}">click here</a>
-				</p>
 			</div>
 		</div>
-    </form>
+	</section>
+	
 {% endblock %}
 
 {% block footer_js %}
