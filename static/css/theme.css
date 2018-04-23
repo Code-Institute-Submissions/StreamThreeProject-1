@@ -417,13 +417,13 @@ a.facebook:hover, a.twitter:hover, a.linkedin:hover, a.youtube:hover, a.instagra
 	transition: 0.3s all ease-out;
 }
 
-.thumbnail:hover {
+.thumbnail:hover, .thumbnail:active {
 	background-color: #f6f6f6;
 	-webkit-box-shadow: 0 0 5px #525252;
 	-moz-box-shadow: 0 0 5px #525252;
 	box-shadow: 0 0 5px #525252;
 }
-.thumbnail:hover .icon i {
+.thumbnail:hover .icon i, .thumbnail:active .icon i {
 	-webkit-animation-name: pulse;
 	animation-name: pulse;
 	-webkit-animation-duraction: 1s;
