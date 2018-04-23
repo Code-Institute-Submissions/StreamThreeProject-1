@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block main_content %}
+	<section>
+		<div class="container">
+			<div class="row spacer-50-bottom">
+				<div class="col-xs-12">
+					<p>
+						Should you need to get in contact with us for any reason, you can use any of the methods below.
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<div class="media spacer-50-bottom">
+						<div class="media-left media-top contact-icon">
+							<i class="fas fa-building fa-3x icon-blue"></i>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">Postal Address</h4>
+							<address>
+								Boatbreakers,<br />
+								Pounds Yard,<br />
+								Tipner,<br />
+								Portsmouth,<br />
+								Hampshire,<br />
+								PO2 8QA.
+							</address>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6">
+					<div class="media">
+						<div class="media-left media-top contact-icon">
+							<i class="fas fa-envelope fa-3x icon-blue"></i>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">E-Mail</h4>
+							<a href="mailto:scrap-help@scrapsystem.com" title="Email Us">scrap-help@scrapsystem.com</a>
+						</div>
+					</div>
+					<div class="media spacer-50-top">
+						<div class="media-left media-top contact-icon">
+							<i class="fas fa-phone fa-3x icon-blue"></i>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">Telephone</h4>
+							<a href="tel:02392984666" title="Call Us">023 9298 4666</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -22,8 +22,9 @@ from site_pages import views as pages
 from .settings import MEDIA_ROOT, STATIC_ROOT
 
 urlpatterns = [
-	url(r'^admin/', admin.site.urls),  # django admin page
-	url(r'^$', pages.get_home_page, name='home'),  # site home page
+	url(r'^admin/', admin.site.urls),  # django admin page.
+	url(r'^$', pages.get_home_page, name='home'),  # site home page.
+    url(r'^contacts/', pages.get_contact_us_page, name='contact_us'),  # contact us page.
     url(r'^accounts/', include('user_accounts.urls')),  # user account urls.
     url(r'^quote/', include('scrap_quote.urls')),  # quotation urls
 

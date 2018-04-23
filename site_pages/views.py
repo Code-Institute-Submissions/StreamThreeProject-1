@@ -10,3 +10,13 @@ def get_home_page(request):
 		'homePage' : True
 	}
 	return render(request, 'pages/index.html', args)
+
+
+# generate the contact us page.
+def get_contact_us_page(request):
+
+	# page arguments
+	args = {
+		'pageTitle': 'Contact Us',
+	}
+	return render(request, 'pages/contact_us.html', args)
